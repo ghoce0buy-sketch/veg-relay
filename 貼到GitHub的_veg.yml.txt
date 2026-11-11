@@ -1,0 +1,36 @@
+name: update-veg
+
+on:
+  schedule:
+    # GitHub 的 cron 用 UTC。臺灣 = UTC+8，所以 23:00 UTC = 隔天 07:00 臺灣時間
+    - cron: "0 23 * * *"
+  workflow_dispatch:   # 允許在 Actions 頁面手動按「Run workflow」測試
+
+permissions:
+  contents: write      # 讓 workflow 能把 veg.json commit 回 repo
+
+concurrency:
+  group: update-veg
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 抓取菜價
+        run: python3 scripts/fetch_veg.py
+
+      - name: 有變動才 commit
+        run: |
+          if [ -n "$(git status --porcelain public/veg.json)" ]; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add public/veg.json
+            git commit -m "update veg.json $(date -u +%F)"
+            git push
+          else
+            echo "veg.json 沒有變動，不 commit"
+          fi
