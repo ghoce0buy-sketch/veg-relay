@@ -1,0 +1,2322 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>index</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@500;700&display=swap">
+<style>
+/* Layout: timer panel + task panel side by side on wide screens, stacked on phones, market panel below */
+:root{
+  --bg:#000; --card:#141414; --ink:#fff; --muted:#a9a9a9; --line:#2e2e2e; --track:#2a2a2a;
+  --work:#9fb2a0; --rest:#c9a8a1; --accent:var(--work); --on-accent:#111;
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#e9e5de; --card:#f4f1ec; --ink:#46413b; --muted:#8c857b; --line:#d8d2c8; --track:#ddd7cd;
+  --work:#8a9a8b; --rest:#b99a94; --on-accent:#fdfcfa;
+  color-scheme:light;
+}
+html{background:var(--bg)}
+html{-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{margin:0;background:var(--bg);color:var(--ink);font-size:16px;
+  font-family:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  transition:background .3s,color .3s}
+.wrap{max-width:960px;margin:0 auto;padding-block:28px 24px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap2{max-width:960px;margin:0 auto;padding-block:0 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+h1{font:700 1.15rem "Noto Serif TC",serif;margin:0;letter-spacing:.08em}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  cursor:pointer;font-size:1.05rem;display:grid;place-items:center}
+.grid{display:grid;grid-template-columns:1.1fr 1fr;gap:20px;margin-bottom:20px}
+.panel{background:var(--card);border-radius:28px;padding:32px 28px;transition:background .3s;min-width:0}
+.timer{display:flex;flex-direction:column;align-items:center}
+.tabs{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:4px;border-radius:24px;background:var(--bg);width:min(380px,100%)}
+.wx{width:100%;min-width:0;margin-bottom:20px}
+.wx-t{color:var(--muted);font-size:.78rem;text-align:center;margin-bottom:6px}
+.wx-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.wx-d{background:var(--bg);border-radius:12px;padding:6px 0;text-align:center;line-height:1.35;font-size:.74rem}
+.wx-w{font-weight:700;color:#e04f4f}
+.wx-m{color:var(--muted);font-size:.65rem}
+.wx-i{font-size:1rem}
+.wx-l{color:var(--muted)}
+.wx-r{color:var(--accent);font-weight:700;margin-top:2px}
+.wx-u{color:var(--muted);font-size:.68rem}
+.tab{border:0;background:transparent;color:var(--muted);font-family:inherit;font-weight:500;font-size:.86rem;font-variant-numeric:tabular-nums;min-height:44px;padding:0;border-radius:20px;cursor:pointer;transition:background .2s,color .2s}
+.tab[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:700;font-size:1.05rem;letter-spacing:.02em}
+.tab.custom{grid-column:1/-1}
+.ring{width:100%;display:flex;justify-content:center}
+.readout{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%}
+.label{margin-top:12px;color:var(--muted);font-size:1.05rem;text-align:center}
+.label:empty{display:none}
+.time-in{position:absolute;margin:0;font-family:inherit;font-weight:700;font-size:16px;line-height:1;font-variant-numeric:tabular-nums;text-align:center;color:var(--ink);background:var(--card);border:2px solid var(--accent);padding:0;border-radius:20px;-webkit-user-select:text;user-select:text;-webkit-appearance:none;appearance:none;z-index:1}
+.time-in[hidden]{display:none}
+.r-top,.r-bot{display:flex;flex-direction:column;align-items:center;text-align:center;line-height:1.4}
+.r-top{margin-bottom:16px;width:100%}
+.r-bot{margin-top:16px}
+.now-time{font-size:clamp(1.9rem,8.5vw,2.6rem);white-space:nowrap;line-height:1.2;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink)}
+.now-date,.now-lunar,.r-info{color:var(--muted);font-size:inherit}
+.r-info b{color:var(--ink);font-weight:500}
+.info{display:flex;align-items:stretch;justify-content:center;gap:16px;width:100%;font-size:.85rem}
+.info-l,.info-r{flex:1 1 0;min-width:0;display:flex;flex-direction:column;justify-content:center;line-height:1.5}
+.info-l{text-align:right;flex:1 1 0}
+.info-r{flex:1.4 1 0}
+.info-l .now-date{color:var(--ink)}
+.r-info.rest{white-space:nowrap}
+.info-l .now-date,.info-l .now-lunar,.info-r .r-info,#nowHol a{white-space:nowrap}
+.info,.info *:not(.now-time){color:var(--ink)!important;font-weight:700!important}
+.info-r{text-align:left;color:var(--ink)}
+#nowHol a{display:block;color:inherit;text-decoration:none;padding:2px 0}
+#nowHol a:last-child{margin-top:4px;font-weight:700}
+.lnk{display:block;color:inherit;text-decoration:none}
+.lnk:hover,#nowHol a:hover{text-decoration:underline}
+.info-div{width:2px;flex:none;background:var(--ink);border-radius:1px}
+.rounds{margin-top:22px;color:var(--muted);font-size:.88rem}
+h2{font:700 1.1rem "Noto Serif TC",serif;margin:0 0 4px}
+.sub{color:var(--muted);font-size:.88rem;margin:0 0 20px}
+.add{display:flex;gap:8px;margin-bottom:16px}
+.add input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid transparent;border-radius:999px;padding:12px 18px;min-height:48px;-webkit-appearance:none;appearance:none}
+.add input::placeholder{color:var(--muted)}
+.add button{border:0;border-radius:999px;background:var(--accent);color:var(--on-accent);font:inherit;font-weight:500;padding:0 22px;min-height:48px;cursor:pointer}
+ul{list-style:none;margin:0;padding:0}
+li{display:flex;align-items:center;gap:12px;padding:8px 2px;border-top:1px solid var(--line);min-height:52px}
+li:first-child{border-top:0}
+li input[type=checkbox]{-webkit-appearance:none;appearance:none;width:26px;height:26px;flex:none;border:2px solid var(--muted);border-radius:50%;margin:0;cursor:pointer;display:grid;place-items:center;background:transparent}
+li input[type=checkbox]:checked{background:var(--accent);border-color:var(--accent)}
+li input[type=checkbox]:checked::after{content:"";width:6px;height:11px;border:solid var(--on-accent);border-width:0 2px 2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+li span{flex:1;min-width:0;word-break:break-word;line-height:1.5}
+li.done span{color:var(--muted);text-decoration:line-through}
+li .del{border:0;background:transparent;color:var(--muted);font-size:1.4rem;cursor:pointer;min-width:44px;min-height:44px;border-radius:8px}
+.empty{color:var(--muted);text-align:center;padding:26px 0;font-size:.92rem}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.market{display:grid;grid-template-columns:1.1fr 1fr;gap:32px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cal-h{text-align:center;color:var(--muted);font-size:.8rem;padding-bottom:2px}
+.cal-d{position:relative;min-height:50px;padding:6px 0;border-radius:12px;background:var(--bg);text-align:center;font-size:.85rem;line-height:1.3}
+.cal-d small{display:block;font-size:.68rem;color:var(--muted)}
+.cal-d.rest{background:var(--rest);color:var(--on-accent)}
+.cal-d.rest small{color:var(--on-accent)}
+.cal-d.today{outline:2px solid var(--accent);outline-offset:1px}
+.cal-d.hol::after{content:"";position:absolute;top:5px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.cal-d.rest.hol::after{background:var(--on-accent)}
+.note{color:var(--muted);font-size:.82rem;line-height:1.6;margin:14px 0 0}
+.egg-main{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.egg-big{font:700 2.6rem/1 "Noto Serif TC",serif;font-variant-numeric:tabular-nums}
+.egg-unit{color:var(--muted);font-size:.9rem}
+.egg-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 12px;padding:11px 0;border-top:1px solid var(--line);font-size:.95rem}
+.egg-row span:last-child{font-variant-numeric:tabular-nums;margin-left:auto}
+.ring{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;transition:transform .15s}
+.ring.alarm{cursor:pointer;touch-action:none}
+.ring.alarm .tab[aria-pressed="true"]{animation:flash .7s ease-in-out infinite}
+.ring.holding{transform:scale(.97)}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.06}}
+@media (prefers-reduced-motion:reduce){.ring.alarm .tab[aria-pressed="true"]{animation-duration:2s}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* long-press commands on the 2 / 30 tabs */
+.tab{position:relative;transition:background .2s,color .2s,transform .12s}
+.tab.pressing{transform:scale(.92)}
+.snd{display:flex;align-items:center;gap:8px;margin-top:16px;width:min(380px,100%);font-size:1.05rem}
+.snd select{flex:1 1 0;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:0 14px;min-height:44px;-webkit-appearance:none;appearance:none;text-align:center;text-align-last:center}
+.snd input[type=range]{flex:1.4 1 0;min-width:0;min-height:44px;accent-color:var(--accent);margin:0}
+/* 北農休市 + 蛋價, under the lunar date */
+.info-r .r-bot{align-items:flex-start;text-align:left;margin:0 0 4px;gap:0}
+.r-info.rest{display:block;font-size:inherit;font-weight:700;color:var(--ink);line-height:1.5}
+.r-info.rest .rl{font-size:inherit;font-weight:400;color:var(--muted)}
+.r-info.egg{display:block;font-size:inherit;line-height:1.5}
+.r-info.egg .eg-l{color:var(--muted)}
+.r-info.egg .eg-v{margin-left:.35em}
+.r-info.egg b{font-size:1em;font-weight:700;line-height:inherit;color:var(--ink);margin-right:2px;font-variant-numeric:tabular-nums}
+/* weather: Friday card double-tap -> 24h panel */
+.wx-d{-webkit-user-select:none;user-select:none}
+.wx-d.fri{cursor:pointer}
+.wx-d.fri.open{outline:2px solid var(--accent);outline-offset:-2px}
+#wxH{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px 6px 8px}
+.wx-hc .wx-u{font-size:.66rem}
+.wx-hc .wx-hv{font-weight:700}
+.wx-ht{text-align:center;color:var(--muted);font-size:.74rem;margin-bottom:8px}
+.wx-hg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px 2px}
+.wx-hc{text-align:center;line-height:1.35;font-size:.78rem;min-width:0}
+.wx-hc .wx-i{height:26px;display:grid;place-items:center}
+.wx-hc .wx-r{font-size:.7rem}
+.wx{cursor:pointer;-webkit-user-select:none;user-select:none}
+.wx-dots{display:flex;justify-content:center;gap:2px;margin-top:0}
+.wx-dots i{width:6px;height:6px;box-sizing:content-box;padding:8px 4px;background-clip:content-box;border-radius:50%;background:var(--line);cursor:pointer}
+.wx-dots i.on{background:var(--accent)}
+.wx-e{display:grid;grid-template-columns:minmax(130px,200px) 1fr;gap:12px;align-items:center;margin-top:8px;background:var(--bg);border-radius:14px;padding:10px}
+.wx-map{width:100%;height:auto;display:block}
+.wx-er{display:flex;gap:8px;align-items:center;margin:7px 0;line-height:1.35;min-width:0}
+.wx-er svg{flex:none}
+.wx-er b{display:block;font-size:.85rem;color:var(--ink)}
+.wx-er span{display:block;font-size:.72rem;color:var(--muted)}
+.wx-en{grid-column:1/-1;color:var(--muted);font-size:.66rem;line-height:1.5;text-align:center}
+.wx a{color:inherit;text-decoration:none}
+.wx-all{display:block;margin:0 0 6px auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:0 14px;min-height:28px;font:inherit;font-size:.72rem;font-weight:700;cursor:pointer}
+.wx.all>*:not(.wx-all){margin-bottom:8px}
+.wx-rv,.wx-al{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px 10px 8px}
+.wx-rr{display:grid;grid-template-columns:3.6em 1fr 3.4em;gap:8px;align-items:center;padding:4px 0;font-size:.8rem;font-weight:700;color:var(--ink)}
+.wx-rb{height:10px;border-radius:5px;background:var(--line);overflow:hidden;display:block}
+.wx-rb i{display:block;height:100%;border-radius:5px}
+.wx-rv-n{text-align:right;font-variant-numeric:tabular-nums}
+.wx-ar{display:flex;gap:10px;align-items:center;padding:7px 8px;margin:5px 0;border-left:4px solid var(--line);border-radius:8px;background:var(--card);min-width:0}
+.wx-ar svg{flex:none}
+.wx-ar b{display:block;font-size:.85rem;color:var(--ink)}
+.wx-ar span{display:block;font-size:.72rem;color:var(--muted);line-height:1.35}
+.wx-lg{margin-top:6px;font-size:.66rem;color:var(--muted);line-height:1.5;text-align:center}
+.wx-lg span{color:var(--c)}
+.wx-rm{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px}
+.wx-rmg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.wx-rmt{text-align:center;font-weight:700;font-size:.8rem;color:var(--ink);margin-bottom:4px}
+.wx-sw{display:inline-block;width:.9em;height:.9em;border-radius:3px;vertical-align:-.1em;margin:0 3px 0 8px}
+.wx-cam{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px;cursor:auto;touch-action:pan-y}
+.wx-cam .cm{margin:0 0 10px}
+.wx-cam .cm:last-of-type{margin-bottom:6px}
+.wx-cam .cm-h{display:flex;justify-content:space-between;align-items:center;font-size:.8rem;font-weight:700;color:var(--ink);margin-bottom:4px}
+.wx-cam .cm-h a{color:var(--muted);font-weight:400;text-decoration:underline;font-size:.72rem}
+.wx-cam iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#000}
+/* 展開的單一影片：左右兩側的透明感應區（iframe 會吃掉手勢，所以要蓋一層）。底部 18% 留空，不擋播放控制列 */
+.wx-cam .cm-v{position:relative}
+.wx-cam .cm-sw{position:absolute;top:0;bottom:16%;height:auto;margin:0;border:0;border-radius:0;background:transparent;width:36%;z-index:2;display:flex;align-items:center;touch-action:pan-y;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+.wx-cam .cm-sw-l{left:0;justify-content:flex-start;padding-left:6px}
+.wx-cam .cm-sw-r{right:0;justify-content:flex-end;padding-right:6px}
+.wx-cam .cm-sw span{width:34px;height:34px;line-height:32px;text-align:center;border-radius:50%;background:rgba(0,0,0,.35);color:#fff;font-size:1.1rem;opacity:.6;pointer-events:none}
+.cm-nav{display:flex;align-items:center;gap:8px;margin:8px 0}
+.cm-nav button{flex:1 1 0;min-height:48px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--ink);font:inherit;font-size:1.05rem;font-weight:700;cursor:pointer}
+.cm-nav button:active{background:#ffd93b;color:#2b2b2b;border-color:transparent}
+.cm-nav span{flex:none;min-width:3.8em;text-align:center;color:var(--muted);font-variant-numeric:tabular-nums}
+.wx-hn{color:var(--muted);font-size:.66rem;margin-top:8px;text-align:center;line-height:1.5}
+
+.liverow{display:flex;align-items:baseline;justify-content:center;gap:.6em;margin-top:10px}
+.liverow .live{margin-top:0}
+.ver{margin:0;flex:none;color:var(--muted);font-size:.7rem;text-align:center;opacity:.7;font-variant-numeric:tabular-nums;-webkit-user-select:none;user-select:none}
+.live{margin-top:10px;color:var(--muted);font-size:.7rem;line-height:1.7;text-align:center;cursor:pointer;word-break:keep-all}
+.wx-bar{display:flex;gap:8px;align-items:center;margin-bottom:6px}
+.wx-bar .wx-all{margin:0;flex:none;min-height:36px}
+.wx-s{display:flex;flex:1;min-width:0;gap:6px;margin:0}
+.wx-s input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:0 14px;min-height:36px;-webkit-appearance:none;appearance:none;-webkit-user-select:text;user-select:text}
+.wx-s input::placeholder{color:var(--muted)}
+.wx-ai{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px 12px;cursor:auto;-webkit-user-select:text;user-select:text}
+.wx-ai-t{font-size:.85rem;line-height:1.65;color:var(--ink);word-break:break-word}
+.wx-ai-s{margin-top:8px;font-size:.72rem;line-height:1.7}
+.wx-ai a{text-decoration:underline;display:block;color:var(--muted)}
+/* 菜價面板 */
+.wx-veg{margin-top:8px;background:var(--bg);border-radius:14px;padding:10px 12px;cursor:auto;-webkit-user-select:text;user-select:text}
+.wx-vr{display:grid;grid-template-columns:1.6em 1fr auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:1rem;color:var(--ink)}
+.wx-ht+.wx-vr{border-top:0}
+.wx-vr .vk{color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.wx-vr .vn{font-weight:700}
+.wx-vr .vp{font-weight:700;font-variant-numeric:tabular-nums}
+.wx-vg{display:grid;grid-template-columns:1fr 1fr;grid-auto-flow:column;column-gap:16px}
+.wx-vg .wx-vr.first{border-top:0}
+.wx-vr{grid-template-columns:minmax(0,1fr) auto;gap:6px;padding:3px 0;font-size:.95rem;line-height:1.2;min-height:0}
+.wx-vr .vk{display:none}
+.wx-vr .vn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wx-vr .vp{text-align:right;line-height:1.1}
+.wx-vr .vp small{display:inline;margin-left:4px;color:var(--muted);font-weight:400;font-size:.66rem}
+.wx-all[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+
+/* 功能列：文字放大、無框；進入該功能時黃底，離開就恢復 */
+.wx-bar{gap:0;flex-wrap:nowrap;justify-content:flex-start;container-type:inline-size}.wx-s{margin:0 0 6px}
+.wx-bar .wx-all{border:0;background:transparent;border-radius:8px;padding:0 .1em;min-height:60px;font-size:2.2rem;font-size:min(2.2rem,9cqw);line-height:1;white-space:nowrap;flex:none;font-weight:700;color:var(--ink);transition:background .15s,color .15s}
+.wx-bar .wx-all:active,.wx-bar .wx-all[aria-pressed="true"]{background:#ffd93b;color:#2b2b2b;border-color:transparent}
+.wx-s input{border:0;border-bottom:2px solid var(--line);border-radius:0;background:transparent;font-size:2.2rem;min-height:60px;padding:0 6px}
+.wx-s input:focus{outline:none;border-bottom-color:var(--ink)}
+/* 音樂鈕：左（音量減）｜中（播放／暫停）｜右（音量加），中間用線隔開，整顆放大 */
+.wx-bar{flex-wrap:wrap}
+.wx-s{flex:1 1 150px}
+/* 倒數超過 2 秒：時間放大到 2～30 分的分頁區，點一下縮回 */
+.big{position:absolute;inset:0;overflow:hidden;z-index:5;display:grid;place-items:center;border-radius:inherit;background:transparent;pointer-events:none;container-type:size;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.big span{font-weight:700;font-variant-numeric:tabular-nums;line-height:1;white-space:nowrap;color:var(--ink);opacity:.9;font-size:min(20vw,9vh);font-size:calc(min(33cqw,46cqh)*var(--k,1));transform:scaleY(2);transform-origin:center}
+
+/* 簡易計算機：按鈴聲符號開關，顯示在計時器下方 */
+.bell-btn{border:0;background:transparent;font:inherit;font-size:1.05rem;color:var(--ink);cursor:pointer;min-width:44px;min-height:44px;padding:0;border-radius:50%}
+.bell-btn[aria-expanded="true"]{background:var(--bg)}
+.calc{width:100%;margin-top:14px;background:var(--bg);border-radius:20px;padding:12px}
+.calc-x{min-height:1.2em;text-align:right;color:var(--muted);font-size:.85rem;font-variant-numeric:tabular-nums;overflow:hidden;white-space:nowrap}
+.calc-d{text-align:right;font-weight:700;font-size:2rem;line-height:1.3;font-variant-numeric:tabular-nums;overflow-x:auto;white-space:nowrap;margin-bottom:8px}
+.calc-g{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ck{min-height:48px;border:0;border-radius:14px;background:var(--card);color:var(--ink);font:inherit;font-size:1.15rem;font-weight:500;cursor:pointer}
+.ck:active{filter:brightness(.92)}
+.ck.op,.ck.fn{color:var(--accent);font-weight:700}
+.ck.eq{grid-column:4;grid-row:4/6;background:var(--accent);color:var(--on-accent);font-weight:700;min-height:0}
+
+/* 左：起床鬧鐘　右：2～30 分計時，中間一條黑線 */
+.split{display:flex;align-items:stretch;gap:12px;width:100%}
+.split .tabs{flex:1 1 0;min-width:0;width:auto;grid-template-columns:repeat(2,1fr);align-content:start}
+.vdiv{width:2px;flex:none;background:var(--ink);border-radius:1px}
+.alarms{flex:1 1 0;min-width:0;display:flex;flex-direction:column;gap:6px}
+.al-t{font-weight:700;font-size:.9rem;text-align:center;color:var(--ink)}
+.al-r{display:flex;align-items:center;gap:8px;min-height:48px}
+.al-time{flex:1 1 0;min-width:0;font:inherit;font-size:16px;font-variant-numeric:tabular-nums;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:0 6px;min-height:44px;text-align:center}
+.sw{-webkit-appearance:none;appearance:none;flex:none;width:44px;height:26px;border-radius:13px;background:var(--line);position:relative;cursor:pointer;margin:0;transition:background .2s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--card);transition:transform .2s}
+.sw:checked{background:var(--accent)}
+.sw:checked::after{transform:translateX(18px);background:var(--on-accent)}
+.al-n{color:var(--muted);font-size:.66rem;line-height:1.4;text-align:center}
+
+/* 鬧鐘與計時器：高度縮小一半，字盡量放大 */
+.split{align-items:flex-start}
+.split .tabs{gap:2px;padding:2px;border-radius:14px}
+.split .tab{min-height:22px;line-height:1;font-size:1.2rem;font-weight:700;color:var(--ink);border-radius:11px;padding:0}
+.alarms{gap:3px}
+.al-t{font-size:1.05rem;line-height:1.1}
+.al-r{min-height:24px;gap:6px}
+.al-time{min-height:24px;font-size:1.2rem;font-weight:700;padding:0 2px;line-height:1;border-radius:10px;cursor:text;-webkit-user-select:text;user-select:text}
+.sw{width:38px;height:22px;border-radius:11px}
+.sw::after{top:2px;left:2px;width:18px;height:18px}
+.sw:checked::after{transform:translateX(16px)}
+.al-n{display:none}
+.tone-edit{flex:1 1 0;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:2px solid var(--accent);border-radius:999px;padding:0 14px;min-height:44px;text-align:center;outline:none}
+.tone-edit[hidden]{display:none}
+.eg-v{white-space:nowrap}
+.x-btn{flex:none;border:0;background:transparent;font:inherit;font-size:1.25rem;font-weight:700;color:var(--ink);min-width:44px;min-height:44px;border-radius:50%;cursor:pointer;padding:0}
+.x-btn.armed{background:#c0392b;color:#fff;font-size:.8rem}
+/* 上方日期、農曆、休假文字：撐滿各自欄位寬度，由程式自動算最大字 */
+.info,.info-l,.info-r{font-size:1rem;line-height:1.25}
+.tabs .tab,.tabs.faded .tab{transition:opacity .25s,background .2s,color .2s,transform .12s}
+.tabs.faded .tab,.tabs.faded .time-in{opacity:.15}
+.tabs.faded .tab:not([aria-pressed="true"]){pointer-events:none}
+/* 現在時間被拉長後，它的框會蓋住下方的鬧鐘；只讓裡面的按鈕可以點，其餘讓點擊穿透 */
+.now-time{pointer-events:none}
+.now-time button{pointer-events:auto}
+.split{position:relative;z-index:2}
+/* Phone */
+@media (max-width:760px){
+  .grid{grid-template-columns:1fr}
+  .market{grid-template-columns:1fr;gap:28px}
+  .wrap{padding-block:12px 20px}
+  .wrap2{padding-block:0 32px}
+  header{margin-bottom:14px}
+  .panel{padding:22px 16px;border-radius:24px}
+  .tabs{width:100%}
+  .tab{font-size:.84rem}
+  .tab[aria-pressed="true"]{font-size:1rem}
+  .wx-g{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:68px;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+  .wx-d{scroll-snap-align:start}
+  .info{gap:12px;font-size:.8rem}
+  .cal-d small{font-size:.6rem;line-height:1.15;word-break:break-all}
+}
+
+/* 時鐘中的兩組「:」：左邊放太陽（切換深淺色），右邊放今天完成的番茄數 */
+.now-time .cs{display:inline-block;min-width:.8em;text-align:center;font-size:.6em;vertical-align:baseline}
+.now-time .cs button{font:inherit;color:inherit;background:transparent;border:0;padding:0;margin:0;cursor:pointer;line-height:inherit;display:block;width:100%;-webkit-appearance:none;appearance:none}
+.snd{justify-content:space-between}
+/* 星期幾：未來 3 天內有休假日就變紅 */
+.info .info-l .wk-red,.info .info-r .wk-red{color:#e04f4f!important}
+/* 天氣區：拿到多出來的空間，卡片與文字放大 */
+.wx{margin-bottom:24px}
+.wx-g{gap:6px}
+.wx-d{padding:12px 0;font-size:.95rem;line-height:1.5;border-radius:16px}
+.wx-d .wx-w{font-size:1.2rem}
+.wx-d .wx-m{font-size:.85rem}
+.wx-d .wx-i{margin:2px 0}
+.wx-d .wx-i svg{width:36px;height:36px}
+.wx-d .wx-h{font-size:1.1rem;font-weight:700}
+.wx-d .wx-l{font-size:1rem}
+.wx-d .wx-r{font-size:.85rem}
+.wx-d .wx-u{font-size:.82rem}
+@media (max-width:760px){.wx-g{grid-auto-columns:88px}}
+
+/* 秒前面的兩點：上＝打叉（關閉軟體，按兩次），下＝灰色圓點（計算機開關） */
+.now-time .cs2{display:inline-flex;flex-direction:column;justify-content:space-between;height:1.33em;vertical-align:top}
+.now-time .cs2 button{flex:1 1 0;min-height:0;font:inherit;font-size:.9em;line-height:1;min-width:0;width:100%;padding:0;margin:0;border:0;border-radius:6px;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.now-time .ic{display:inline-block;transform:scaleY(calc(1/var(--k,1)))}
+.info .now-time .cs2 .bell-btn[aria-expanded="true"]{background:var(--bg)}
+.info .now-time .cs2 .x-btn.armed{background:var(--bg);color:#F7B731!important}
+
+/* 六個點移到天氣上方；天氣卡片吃掉多餘空間、文字再放大 */
+.wx-dots{margin:0 0 4px}
+.wx{flex:1 1 auto;display:flex;flex-direction:column}
+.wx-g{flex:1 1 auto;gap:5px}
+.wx-d{display:flex;flex-direction:column;justify-content:space-evenly;align-items:center;padding:16px 0;font-size:1rem}
+.wx-d .wx-w{font-size:1.4rem}
+.wx-d .wx-m{font-size:1rem}
+.wx-d .wx-i svg{width:42px;height:42px}
+.wx-d .wx-h{font-size:1.3rem}
+.wx-d .wx-l{font-size:1.15rem}
+.wx-d .wx-r,.wx-d .wx-u{font-size:.88rem;white-space:nowrap}
+:root{--om:#5BA8FF}:root[data-theme="light"]{--om:#2563c9}
+.wx-om{color:var(--om);font-weight:700;font-variant-numeric:tabular-nums}
+.wx-d .wx-om{font-size:.88rem;white-space:nowrap}
+.wx-hc .wx-om{font-size:.7rem}
+:root{--wt:#C792EA}:root[data-theme="light"]{--wt:#8a3fb5}
+.wx-wt{color:var(--wt);font-weight:700;font-variant-numeric:tabular-nums}
+.wx-wt:empty{display:none}
+.wx-d .wx-wt{font-size:.88rem;white-space:nowrap}
+.wx-hc .wx-wt{font-size:.7rem}
+
+/* 六個點放在天氣那一排的正中間 */
+.wx-row{position:relative;flex:1 1 auto;display:flex;flex-direction:column}
+.wx>.wx-dots{position:static;transform:none;margin:0 0 6px;padding:0;background:none;opacity:1;flex:none}
+.wx-dots{align-items:center}
+.wx-dots .dn{border:0;background:transparent;color:var(--muted);font:inherit;font-size:1.6rem;line-height:1;min-width:44px;min-height:32px;padding:0 6px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.wx-dots .dn:active{color:var(--accent)}
+.wx>.wx-dots{position:relative}
+.wx-dots .nws{position:absolute;left:0;top:50%;transform:translateY(-50%);color:var(--muted);font-family:inherit;font-weight:500;font-size:.86rem;line-height:1;text-decoration:none;padding:10px 8px 10px 0;min-height:32px;display:flex;align-items:center;-webkit-tap-highlight-color:transparent}
+.wx-dots .nws:hover,.wx-dots .nws:active{color:var(--accent)}
+.wx-row .wx-g{flex:1 1 auto}
+
+.now-time .ic svg{display:block}
+.info .now-time .cs2 button{color:color-mix(in srgb,var(--ink) 72%,var(--card))!important}
+.info .now-time .cs2 button.act,.info .now-time .cs2 #theme.act,.info .now-time .cs2 #speakBtn.act,.info .now-time .cs2 #bellBtn.act,.info .now-time .cs2 #quitBtn.act{color:#F7B731!important}
+.info .now-time #tS{color:color-mix(in srgb,var(--ink) 72%,var(--card))!important}
+
+/* 鬧鐘：左半是響鈴時間，右半是距離響鈴的剩餘時間；兩邊同一字級，剩餘時間顏色稍淺 */
+.alarms{container-type:inline-size}
+.al-time,.al-rem{font-size:1.2rem;font-size:max(16px,min(1.2rem,calc((100cqw - 50px)/5.6)))}
+.al-rem{flex:1 1 0;min-width:0;text-align:center;font-weight:700;line-height:1;white-space:nowrap;overflow:hidden;font-variant-numeric:tabular-nums;
+  color:var(--muted);color:color-mix(in srgb,var(--ink) 55%,var(--card))}
+.al-rem.off{opacity:.5}
+
+/* 每個鬧鐘一列（上下排列）：響鈴時間、剩餘時間同一行，無框、只隔一格；開關是單一圓圈，啟動時亮綠色 */
+.alarms{display:flex;flex-direction:column;gap:3px}
+.al-r{display:flex;align-items:center;gap:.45em}
+.al-time{order:1;flex:none;width:2.75em;border:0;background:transparent;padding:0;border-radius:0;text-align:center}
+.al-rem{order:2;flex:none;width:auto;min-width:2.5em;text-align:left}
+.sw{order:3;flex:none;width:20px;height:20px;border-radius:50%;margin-left:auto;background:transparent;border:2px solid var(--muted);box-shadow:none;transition:background .2s,border-color .2s,box-shadow .2s}
+.sw::after{display:none}
+.sw:checked{background:#34c759;border-color:#34c759;box-shadow:0 0 8px 2px rgba(52,199,89,.65)}
+
+/* 鬧鐘啟動中：預定時間變綠色 */
+.al-time.on{color:#34c759}
+/* 時間到：計時器的數字高度放大一倍 */
+.ring.alarm .split .tab[aria-pressed="true"]{white-space:nowrap;transform:scaleY(2);transform-origin:center;margin:11px 0}
+/* 秒：大小與高度減半 */
+.now-time #tS{font-size:.5em}
+
+/* 降雨機率超過 30%：該格背景粉紅色；30% 以下：淺 50% 的粉紅色 */
+:root{--wet:#4a2f37;--wet2:#7a3047}
+:root[data-theme="light"]{--wet:#fde4ea;--wet2:#f7b3c6}
+.wx-d.wet,.wx-hc.wet{background:color-mix(in srgb,var(--wet2) 50%,var(--bg))}
+.wx-d.wet2,.wx-hc.wet2{background:var(--wet2)}
+.wx-hc{border-radius:10px;padding:4px 0}
+
+/* 時間旁四個按鈕：作用中（按下去到功能結束）整格底色變黃色，圖示改深色以便看清 */
+.info .now-time .cs2 #theme:not(.act),.info .now-time .cs2 #speakBtn.act,.info .now-time .cs2 #bellBtn.act,.info .now-time .cs2 #quitBtn.act,.info .now-time .cs2 .x-btn.armed,.info .now-time .cs2 .bell-btn[aria-expanded="true"]{background:#F7B731!important;color:#1f2324!important}
+.info .now-time .cs2 #theme.act{background:transparent!important;color:color-mix(in srgb,var(--ink) 72%,var(--card))!important}
+</style>
+
+
+<div class="wrap">
+  <div class="grid">
+    <section class="panel timer" aria-label="計時器">
+      <div class="wx" aria-label="未來一週天氣預報">
+        <div class="wx-bar"><button class="wx-all" id="wxSearch" type="button" aria-pressed="false">搜尋</button><button class="wx-all" id="wxCam" type="button" title="開啟 Google 相機鏡頭，即時翻譯成中文">翻譯</button><button class="wx-all" id="wxVeg" type="button" aria-pressed="false">菜價</button><button class="wx-all" id="wxLive" type="button" aria-pressed="false">影像</button><button class="wx-all" id="wxAll" type="button">全部</button></div><form class="wx-s" id="aiForm" autocomplete="off" hidden><input id="aiQ" type="search" placeholder="Google 搜尋…" enterkeyhint="search" aria-label="Google 搜尋"></form>
+        <div class="wx-dots" id="wxDots"><a class="nws" id="wxNews" href="https://news.ghoce0buy.workers.dev/#0-0" target="_blank" rel="noopener noreferrer">news</a><button class="dn" data-d="-1" type="button" aria-label="上一個畫面">‹</button><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><button class="dn" data-d="1" type="button" aria-label="下一個畫面">›</button></div>
+        <div class="wx-row">
+        <div class="wx-g" id="wx"></div>
+        </div>
+        <div class="wx-veg" id="wxV" hidden></div>
+        <div class="wx-h" id="wxH" hidden></div>
+        <div class="wx-rm" id="wxM" hidden></div>
+        <div class="wx-e" id="wxE" hidden></div>
+        <div class="wx-rv" id="wxR" hidden></div>
+        <div class="wx-al" id="wxA" hidden></div>
+        <div class="wx-cam" id="wxC" hidden></div>
+                <div class="wx-ai" id="wxS" hidden></div>
+      </div>
+      <div class="ring">
+        <div class="readout">
+          <div class="r-top">
+            <div class="info">
+              <div class="info-l"><div class="now-time" id="nowTime"><span id="tH">--</span><span class="cs cs2"><button id="speakBtn" type="button" aria-label="語音報時"><span class="ic"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span></button><button id="theme" type="button" aria-label="切換深色模式"><span class="ic">☾︎</span></button></span><span id="tM">--</span><span class="cs cs2" id="roundsN"><button id="quitBtn" class="x-btn" type="button" aria-label="重新載入"><span class="ic"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="3"/><path d="M8 8l8 8M16 8l-8 8" fill="none" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/></svg></span></button><button id="bellBtn" class="bell-btn" type="button" aria-label="計算機" aria-expanded="false" aria-controls="calc"><span class="ic"><svg viewBox="0 0 24 24" width="1em" height="1em" aria-hidden="true"><path d="M3.5 12h17" stroke="currentColor" stroke-width="3.6" stroke-linecap="round"/><circle cx="12" cy="4.6" r="2.6" fill="currentColor"/><circle cx="12" cy="19.4" r="2.6" fill="currentColor"/></svg></span></button></span><span id="tS">--</span></div><a class="lnk" href="https://www.dgpa.gov.tw/" target="_blank" rel="noopener noreferrer"><div class="now-date" id="nowDate"></div></a><a class="lnk" href="https://www.dgpa.gov.tw/" target="_blank" rel="noopener noreferrer"><div class="now-lunar" id="nowLunar"></div></a></div>
+              <div class="info-div"></div>
+              <div class="info-r"><div class="r-bot"><a class="lnk" href="https://egg.dachan.com/" target="_blank" rel="noopener noreferrer"><div class="r-info egg"><span class="eg-l" id="egL">蛋</span><span class="eg-v"><b id="egB">—</b></span></div></a></div><div id="nowHol"></div><a class="lnk" href="https://data.gov.tw/dataset/121931" target="_blank" rel="noopener noreferrer"><div class="r-info rest" id="restInfo"></div></a></div>
+            </div>
+          </div>
+          <div class="split"><div class="alarms" aria-label="起床鬧鐘"><div class="al-r"><input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="06:30" class="al-time" data-i="0" aria-label="起床鬧鐘 1 時間"><input type="checkbox" class="sw" data-i="0" role="switch" aria-label="起床鬧鐘 1 開關"></div><div class="al-r"><input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="06:30" class="al-time" data-i="1" aria-label="起床鬧鐘 2 時間"><input type="checkbox" class="sw" data-i="1" role="switch" aria-label="起床鬧鐘 2 開關"></div><div class="al-r"><input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="06:30" class="al-time" data-i="2" aria-label="起床鬧鐘 3 時間"><input type="checkbox" class="sw" data-i="2" role="switch" aria-label="起床鬧鐘 3 開關"></div><div class="al-r"><input type="text" inputmode="numeric" autocomplete="off" maxlength="5" placeholder="06:30" class="al-time" data-i="3" aria-label="起床鬧鐘 4 時間"><input type="checkbox" class="sw" data-i="3" role="switch" aria-label="起床鬧鐘 4 開關"></div><div class="al-n">網頁需保持開啟才會響</div></div><div class="vdiv" aria-hidden="true"></div>
+          <div class="tabs" id="tabs" role="group" aria-label="選擇專注時間">
+      <div class="big" id="big" hidden aria-hidden="true"><span id="bigT"></span></div>
+            <button class="tab" data-min="2" aria-pressed="false">2 分</button>
+            <button class="tab" data-min="4" aria-pressed="false">4 分</button>
+            <button class="tab" data-min="5" aria-pressed="false">5 分</button>
+            <button class="tab" data-min="7" aria-pressed="false">7 分</button>
+            <button class="tab" data-min="8" aria-pressed="false">8 分</button>
+            <button class="tab" data-min="10" aria-pressed="false">10 分</button>
+            <button class="tab" data-min="15" aria-pressed="false">15 分</button>
+            <button class="tab" data-min="20" aria-pressed="false">20 分</button>
+            <button class="tab" data-min="25" aria-pressed="true">25:00</button>
+            <button class="tab" data-min="30" aria-pressed="false">30 分</button>
+            <button class="tab custom" id="tabCustom" aria-pressed="false" hidden>自訂</button>
+            <input class="time-in" id="timeIn" type="text" inputmode="numeric" enterkeyhint="done" autocomplete="off" aria-label="自訂時間，輸入分鐘，或四位數 分秒（例如 0730 代表 7 分 30 秒）" hidden>
+          </div>
+          </div>
+          <div class="calc" id="calc" hidden aria-label="簡易計算機">
+            <div class="calc-x" id="calcX"></div>
+            <div class="calc-d" id="calcD">0</div>
+            <div class="calc-g"><button type="button" class="ck fn" data-k="C">C</button><button type="button" class="ck fn" data-k="⌫">⌫</button><button type="button" class="ck op" data-k="÷">÷</button><button type="button" class="ck op" data-k="×">×</button><button type="button" class="ck " data-k="7">7</button><button type="button" class="ck " data-k="8">8</button><button type="button" class="ck " data-k="9">9</button><button type="button" class="ck op" data-k="−">−</button><button type="button" class="ck " data-k="4">4</button><button type="button" class="ck " data-k="5">5</button><button type="button" class="ck " data-k="6">6</button><button type="button" class="ck op" data-k="+">+</button><button type="button" class="ck " data-k="1">1</button><button type="button" class="ck " data-k="2">2</button><button type="button" class="ck " data-k="3">3</button><button type="button" class="ck eq" data-k="=">=</button><button type="button" class="ck fn" data-k="±">±</button><button type="button" class="ck " data-k="0">0</button><button type="button" class="ck " data-k=".">.</button></div>
+          </div>
+        </div>
+      </div>
+      <div class="liverow"><div class="ver" id="ver" aria-label="版本">v1.52</div><div class="ver" id="hpSt" aria-live="polite" style="margin-left:8px">耳機：啟動中</div><div class="live" id="liveSt" title="點一下立即更新全部資料" role="button" tabindex="0">即時資料　連線中…</div></div>
+    </section>
+
+    <section class="panel" aria-label="今日專注任務">
+      <h2>今日專注任務</h2>
+      <p class="sub" id="sub">寫下今天要完成的事</p>
+      <div class="add">
+        <input id="in" type="text" placeholder="新增一項任務" maxlength="80" enterkeyhint="done" aria-label="新任務名稱">
+        <button id="addBtn">新增</button>
+      </div>
+      <ul id="list"></ul>
+    </section>
+  </div>
+</div>
+
+<div class="wrap2">
+  <section class="panel market" aria-label="批發市場休市與蛋價">
+    <div>
+      <h2>北農・漁產休市日</h2>
+      <p class="sub">未來兩週，休市日以色塊標示；圓點代表例假日</p>
+      <div class="cal" id="cal"></div>
+      <p class="note">北農休市日依<a href="https://www.tapmc.com.tw/Pages/Market/Rest" target="_blank" rel="noopener noreferrer">北農官網公布的年度休市日程表</a>（115、116 年）：逢週一休市，另有春節與民俗節日調整、每月週四增休；少數週一會取消休市。魚市場、家禽市場的實際日程，請以官網公告為準。</p>
+      <p class="note" id="nkNote"></p>
+    </div>
+    <div>
+      <h2>今日雞蛋價格</h2>
+      <p class="sub" id="eggSub">更新中… · 元／台斤（600 公克，不含稅）</p>
+      <div class="egg-main"><span class="egg-big" id="eggBig">—</span><span class="egg-unit">台北批發價</span></div>
+      <div class="egg-row" id="rTP"><span>台北</span><span>—</span></div>
+      <div class="egg-row" id="rTC"><span>台中</span><span>—</span></div>
+      <div class="egg-row" id="rTN"><span>台南</span><span>—</span></div>
+      <div class="egg-row" id="rWS"><span>洗選蛋（台北・12 公斤散裝）</span><span>—</span></div>
+      <div class="egg-row" id="rFC"><span>產地行情・中華食物網 </span><span>—</span></div>
+      <div class="egg-row" id="rFC2"><span>中華食物網 台北批發 · 大運輸</span><span>—</span></div>
+      <p class="note" id="eggNote">來源：中一蛋品「台灣每日蛋價」（台北市蛋商公會公告）；產地行情另參考中華食物網（工商時報）。正在嘗試取得即時資料…</p>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var DUR={work:25*60,rest:5*60};
+  var mode='work', remaining=DUR.work, running=false, endAt=0, tick=null, rounds=0, tasks=[];
+  var alarming=false, holdT=null, justHeld=false, alarmT=null, wakeLock=null, audioCtx=null;
+  var $=function(id){return document.getElementById(id)};
+  
+
+  function store(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+  function load(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v)}catch(e){return d}}
+
+  function fmt(s){var m=Math.floor(s/60),r=s%60;return (m<10?'0':'')+m+':'+(r<10?'0':'')+r}
+  var runStart=0, bigOff=false, bigEl=$('big'), bigT=$('bigT');
+  function syncBig(){
+    var want=running&&!bigOff&&!editing;
+    bigEl.hidden=!want;
+    var tb=$('tabs');if(tb)tb.classList.toggle('faded',want);
+    if(want){var tx=fmt(remaining);bigT.textContent=tx;bigEl.style.setProperty("--k",Math.min(1,5/tx.length))}
+  }
+  function render(){
+    syncBig();
+    var sel=selTab();if(sel&&!editing)sel.textContent=fmt(remaining);
+    document.title=alarming?'⏰ 時間到 · index':(running?fmt(remaining)+' · ':'')+'index';
+    $('roundsN').title='今天完成 '+rounds+' 個番茄';
+  }
+
+  /* iPhone: sound needs an AudioContext started by a tap; keep it and reuse it */
+  function getCtx(){
+    try{
+      if(!audioCtx){var AC=window.AudioContext||window.webkitAudioContext;if(AC)audioCtx=new AC()}
+      if(audioCtx&&audioCtx.state!=='running')audioCtx.resume();
+    }catch(e){}
+    return audioCtx;
+  }
+  ['touchend','click'].forEach(function(ev){document.addEventListener(ev,getCtx,{passive:true})});
+
+  /* Keep the screen on while counting down (ignored where unsupported) */
+  function lockScreen(){
+    try{
+      if(wakeLock||!navigator.wakeLock||document.visibilityState!=='visible')return;
+      navigator.wakeLock.request('screen').then(function(l){
+        wakeLock=l;l.addEventListener('release',function(){if(wakeLock===l)wakeLock=null});
+      }).catch(function(){});
+    }catch(e){}
+  }
+  function unlockScreen(){try{if(wakeLock){var l=wakeLock;wakeLock=null;l.release()}}catch(e){}}
+
+  function stop(){running=false;clearInterval(tick);tick=null;store('pomo-run',null);unlockScreen();stopAlarm()}
+  function setMode(m){
+    stop();mode=m;remaining=DUR[m];
+    document.body.setAttribute('data-mode',m);
+    render();
+  }
+  var tone='soft', vol=1; /* 音量固定交給系統音量鍵控制 */
+  function note(a,t,f,d,type,pk){
+    var o=a.createOscillator(),g=a.createGain();
+    o.type=type;o.frequency.value=f;o.connect(g);g.connect(a.destination);
+    g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(pk,.0002),t+.03);
+    g.gain.exponentialRampToValueAtTime(.0001,t+d);o.start(t);o.stop(t+d+.05);
+  }
+  function beep(){
+    try{
+      var a=getCtx();if(!a||vol<=0)return;
+      var t=a.currentTime,pk=vol;
+      if(tone==='bell'){note(a,t,523,1.9,'sine',pk*.57);note(a,t,1047,1.2,'sine',pk*.29);note(a,t,1568,.7,'sine',pk*.14)}
+      else if(tone==='chime'){note(a,t,784,.6,'sine',pk);note(a,t+.45,988,.9,'sine',pk)}
+      else if(tone==='alarm'){[0,.25,.5].forEach(function(x){note(a,t+x,880,.18,'square',pk*.45)})}
+      else if(tone==='digital'){[0,.15,.3,.45].forEach(function(x){note(a,t+x,1200,.1,'triangle',pk)})}
+      else note(a,t,660,1.1,'sine',pk);
+    }catch(e){}
+  }
+  function update(){
+    remaining=Math.max(0,Math.round((endAt-Date.now())/1000));
+    if(remaining<=0){
+      var setSecs=DUR.work;
+      if(mode==='work'){rounds++;store('pomo-rounds',{d:new Date().toDateString(),n:rounds})}
+      stop();remaining=DUR.work;startAlarm('timer',setSecs);
+      return;
+    }
+    render();
+  }
+  function toggle(){
+    getCtx();
+    if(running){stop();render();return}
+    stopAlarm();running=true;runStart=Date.now();bigOff=false;endAt=Date.now()+remaining*1000;
+    store('pomo-run',{end:endAt,dur:DUR.work});
+    lockScreen();
+    tick=setInterval(update,250);render();
+  }
+  /* The selected tab doubles as the countdown display */
+  var tabEls=Array.prototype.slice.call(document.querySelectorAll('.tab[data-min]')), tabCustom=$('tabCustom');
+  function selTab(){return document.querySelector('.tab[aria-pressed="true"]')}
+  function syncTabs(){
+    var hit=false;
+    tabEls.forEach(function(x){
+      var on=parseInt(x.dataset.min,10)*60===DUR.work;
+      if(on)hit=true;
+      x.setAttribute('aria-pressed',on);
+      x.textContent=on?fmt(remaining):x.dataset.min+' 分';
+    });
+    tabCustom.hidden=hit;
+    tabCustom.setAttribute('aria-pressed',!hit);
+    if(!hit)tabCustom.textContent=fmt(remaining);
+  }
+  function pickTab(t){
+    stop();DUR.work=parseInt(t.dataset.min,10)*60;remaining=DUR.work;
+    syncTabs();render();
+  }
+  /* Gestures on the shown countdown (the selected tab):
+     one tap = start / pause / resume, two quick taps = set the time,
+     hold 0.5 s = back to the original setting. Other tabs: tap = pick that time. */
+  function isSel(t){return t.getAttribute('aria-pressed')==='true'}
+  function resetTime(){stop();remaining=DUR.work;syncTabs();render()}
+  tabEls.concat([tabCustom]).forEach(function(t){
+    var lpT=null, fired=false, pend=null;
+    t.addEventListener('pointerdown',function(){
+      fired=false;clearTimeout(lpT);
+      if(alarming||editing||!isSel(t))return;
+      t.classList.add('pressing');
+      lpT=setTimeout(function(){
+        fired=true;t.classList.remove('pressing');
+        clearTimeout(pend);pend=null;
+        try{if(navigator.vibrate)navigator.vibrate(30)}catch(e){}
+        resetTime();
+      },500);
+    });
+    ['pointerup','pointerleave','pointercancel'].forEach(function(ev){
+      t.addEventListener(ev,function(){clearTimeout(lpT);t.classList.remove('pressing')});
+    });
+    t.addEventListener('contextmenu',function(e){e.preventDefault()});
+    t.addEventListener('click',function(){
+      if(alarming||justHeld)return;
+      if(fired){fired=false;return}
+      if(!isSel(t)){pickTab(t);return}
+      if(pend){clearTimeout(pend);pend=null;stop();openEdit();return}
+      pend=setTimeout(function(){pend=null;toggle()},280);
+    });
+  });
+
+  /* 倒數時間放大時，點一下縮小時鐘的區域：暫停計時，放大的字消失，恢復原狀 */
+  $('tabs').addEventListener('click',function(e){
+    if(alarming||editing||bigEl.hidden||!running)return;
+    e.stopPropagation();e.preventDefault();
+    stop();render();
+  },true);
+
+  /* Back from the lock screen or another app: catch up at once */
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState!=='visible')return;
+    if(running){update();if(running)lockScreen()}
+    else if(alarming)lockScreen();
+  });
+  window.addEventListener('pageshow',function(){if(running)update()});
+
+  /* ===== 即時資料：開啟網頁時自動連線，之後定時更新 ===== */
+  var LV={}, LAST={}, CK=load('pomo-cwa-key','')||'CWA-FA43F496-A848-4641-A5A5-FCDA978C29F6';
+  var NAMES={wx:'天氣',eq:'地震',ty:'颱風',al:'特報',rs:'水庫',hd:'假日',egg:'蛋價',egg2:'產地蛋',rain:'下雨',veg:'菜價',om:'OM雨',wt:'WT雨',ro:'累積雨量'};
+  var WKD=['日','一','二','三','四','五','六'];
+  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  function dkey(d){return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+  function stamp(d){d=d instanceof Date?d:new Date(d||Date.now());return pad(d.getHours())+':'+pad(d.getMinutes())}
+  function mdhm(ms){var d=new Date(ms);return (d.getMonth()+1)+'/'+d.getDate()+' '+pad(d.getHours())+':'+pad(d.getMinutes())}
+  function setSt(k,ok,txt){LV[k]={ok:ok,t:stamp(),x:txt||'失敗'};drawSt()}
+  function drawSt(){
+    var el=$('liveSt');if(!el)return;
+    var o=[],pend=0;Object.keys(NAMES).forEach(function(k){var s=LV[k];if(!s)pend++;else if(!s.ok)o.push(NAMES[k]+'✗')});
+    el.textContent='即時資料 '+(o.length?o.join(' '):(pend?'連線中…':'全部正常'));
+  }
+  function cacheGet(k){var c=load('pomo-c-'+k,null);return c&&c.v?c:null}
+  function cacheSet(k,v){store('pomo-c-'+k,{t:Date.now(),v:v})}
+
+  /* network helpers: direct first; optional public CORS proxies as fallback */
+  function tfetch(url,opt){
+    /* 不使用 AbortController：部分環境無法轉送 AbortSignal，改用計時器逾時 */
+    return new Promise(function(res,rej){
+      var done=false, t=setTimeout(function(){if(!done){done=true;rej(new Error('逾時'))}},12000);
+      fetch(url,opt||{cache:'no-store'}).then(function(r){
+        if(done)return;done=true;clearTimeout(t);
+        if(!r.ok)rej(new Error('HTTP '+r.status));else res(r);
+      },function(e){if(done)return;done=true;clearTimeout(t);rej(e)});
+    });
+  }
+  var PROX=[function(u){return 'https://api.allorigins.win/raw?url='+encodeURIComponent(u)},function(u){return 'https://corsproxy.io/?'+encodeURIComponent(u)}];
+  function viaProxy(url,kind){
+    var go=function(p){return tfetch(p(url)).then(function(r){return r[kind]()})};
+    return go(PROX[0]).catch(function(){return go(PROX[1])});
+  }
+  function getJSON(url,px){var p=tfetch(url).then(function(r){return r.json()});return px?p.catch(function(){return viaProxy(url,'json')}):p}
+  function getText(url,px){var p=tfetch(url).then(function(r){return r.text()});return px?p.catch(function(){return viaProxy(url,'text')}):p}
+
+  /* ---------- state ---------- */
+  var g=$('wx'), hp=$('wxH'), ep=$('wxE'), rv=$('wxR'), al=$('wxA'), mp=$('wxM'), btn=$('wxAll'), box=document.querySelector('.wx');
+  var all=false, view=0, dots=document.querySelectorAll('#wxDots i'), cp=$('wxC'), NV=11;
+  /* 即時影像：第 7～9 個畫面，每頁 2 支；只在看到那一頁時才載入，離開就卸載，不會拖慢其他功能 */
+  var CAMS=[['BOT412','BOT389'],['BOT250','BOT328'],['BOT021','BOT373'],['yt:fP4ecxfsJos','yt:z_fY1pj1VBw'],['yt:34h_Cy_n0Ok','yt:uvwfYzwY8tg']];
+  var camOn=false, camSel='', swipedAt=0;
+  function camUrl(id){return id.indexOf('yt:')===0?'https://www.youtube.com/embed/'+id.slice(3)+'?playsinline=1&rel=0&mute=1':'https://hls.bote.gov.taipei/live/index.html?id='+id.replace(/^BOT/,'')}
+  function camLink(id){return id.indexOf('yt:')===0?'https://www.youtube.com/watch?v='+id.slice(3):camUrl(id)}
+  function camName(id){return id.indexOf('yt:')===0?'YouTube 影片':'攝影機 '+id}
+  function camNav(a,b,c){return '<div class="cm-nav"><button type="button" data-cnav="-1">‹ '+a+'</button><span>'+c+'</span><button type="button" data-cnav="1">'+b+' ›</button></div>'}
+  function buildCam(n){
+    var key=String(n);if(cp.getAttribute('data-k')===key&&cp.firstChild)return;
+    killFrames();cp.setAttribute('data-k',key);
+    var h='<div class="wx-ht">即時影像 '+(n+1)+' / '+CAMS.length+'</div>'+camNav('上一頁','下一頁',(n+1)+' / '+CAMS.length);
+    CAMS[n].forEach(function(id){h+='<div class="cm"><div class="cm-h"><span>'+camName(id)+'</span><a href="'+camLink(id)+'" target="_blank" rel="noopener noreferrer">開新分頁</a></div><div class="cm-v"><iframe src="'+camUrl(id)+'" loading="lazy" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="cm-sw cm-sw-l" aria-label="上一頁"><span>‹</span></div><div class="cm-sw cm-sw-r" aria-label="下一頁"><span>›</span></div></div></div>'});
+    cp.innerHTML=h+'<div class="wx-hn">若畫面空白，是影片或網站不允許嵌入（YouTube 錯誤 153：網頁要用 https 網址開啟，用本機檔案開會失敗），請按「開新分頁」。按上方的換頁按鈕，或在影片左右兩側（或影片以外的空白處）用手指左右滑動，可換上一頁／下一頁；點標題區左半或右半也可以換。</div>';
+  }
+  function killFrames(){try{var f=cp.querySelectorAll('iframe');for(var i=0;i<f.length;i++){try{f[i].src='about:blank'}catch(e){}}}catch(e){}}
+  function unloadCam(){if(cp.firstChild||cp.getAttribute('data-k')){killFrames();cp.textContent='';cp.removeAttribute('data-k');camClosed()}}
+  /* 影片關閉後：影片會搶走並弄亂音訊，稍後把語音引擎和 iPhone 的音訊環境接回來 */
+  function camClosed(){setTimeout(function(){try{if(window.__pomoSpeechFix)window.__pomoSpeechFix();if(window.__pomoRearm)window.__pomoRearm();if(audioCtx&&audioCtx.state!=='running')audioCtx.resume()}catch(e){}},400)}
+  /* 「影像」按鈕：先列出所有攝影機／影片讓你選，只有選到的那一支才會載入（省流量） */
+  function buildCamPick(){
+    var key='p'+camSel;if(cp.getAttribute('data-k')===key&&cp.firstChild)return;
+    var hadIf=!!cp.querySelector('iframe');
+    killFrames();cp.setAttribute('data-k',key);
+    var L=[];CAMS.forEach(function(p){p.forEach(function(id){L.push(id)})});
+    var h='<div class="wx-ht">即時影像・點選一支來看（沒選就不會載入，省流量）</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">';
+    var nb=0,ny=0;
+    L.forEach(function(id){
+      var yt=id.indexOf('yt:')===0, nm=yt?'影片 '+(++ny):'攝影機 '+(++nb);
+      h+='<button class="wx-all" data-cam="'+id+'"'+(id===camSel?' aria-pressed="true"':'')+' type="button" style="margin:0">'+nm+'</button>';
+    });
+    h+='</div>';
+    if(camSel)h+=camNav('上一個','下一個',(L.indexOf(camSel)+1)+' / '+L.length)+'<div class="cm"><div class="cm-h"><span>'+camName(camSel)+' ('+(L.indexOf(camSel)+1)+'/'+L.length+')</span><a href="'+camLink(camSel)+'" target="_blank" rel="noopener noreferrer">開新分頁</a></div><div class="cm-v"><iframe src="'+camUrl(camSel)+'" allow="autoplay; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><div class="cm-sw cm-sw-l" aria-label="上一個"><span>‹</span></div><div class="cm-sw cm-sw-r" aria-label="下一個"><span>›</span></div></div></div><div class="wx-hn">按上方的換頁按鈕，或在影片左右兩側（或影片以外的空白處）用手指左右滑動，可切換上一個／下一個（到頭會接回另一端）。若畫面空白，是影片或網站不允許嵌入，請按「開新分頁」。再點一次同一個按鈕可關閉。</div>';
+    cp.innerHTML=h;
+    if(hadIf&&!camSel)camClosed();
+  }
+  /* 左右滑動換影像：
+     ① 「影像」按鈕展開單一影片時：切到上一個／下一個（順序同按鈕列，首尾相接）
+     ② 影像頁面（每頁 2 支）時：換上一頁／下一頁（只在影像頁之間循環）
+     影片本身是 iframe 會吃掉手勢，所以在影片左右兩側蓋透明感應區；影片以外的空白處（標題、說明文字、邊框）也能滑 */
+  function camAll(){var L=[];CAMS.forEach(function(p){p.forEach(function(id){L.push(id)})});return L}
+  function camStep(d){var L=camAll(),i=L.indexOf(camSel);if(i<0)return;camSel=L[(i+d+L.length)%L.length];refresh()}
+  function camPageStep(d){var n=CAMS.length;view=6+((view-6+d+n)%n);refresh()}
+  function camSwipeOk(){return camOn?!!camSel:(!all&&!vegOn&&!aiOn&&view>=6&&!cp.hidden)}
+  (function(){
+    var sx=0,sy=0,sid=null,on=false;
+    cp.addEventListener('pointerdown',function(e){
+      if(!camSwipeOk())return;
+      on=true;sid=e.pointerId;sx=e.clientX;sy=e.clientY;
+      var z=e.target.closest&&e.target.closest('.cm-sw');
+      if(z){try{z.setPointerCapture(e.pointerId)}catch(x){}}   /* 滑鼠拖曳時讓放開事件回到感應區；手指觸控本來就會 */
+    });
+    function end(e,ok){
+      if(!on||e.pointerId!==sid)return;on=false;if(!ok)return;
+      var dx=e.clientX-sx,dy=e.clientY-sy;
+      if(Math.abs(dx)>=22&&Math.abs(dx)>Math.abs(dy)){
+        swipedAt=Date.now();
+        var d=dx<0?1:-1;                  /* 手指往左滑 = 下一個／下一頁 */
+        if(camOn)camStep(d);else camPageStep(d);
+      }
+    }
+    cp.addEventListener('pointerup',function(e){end(e,true)});
+    cp.addEventListener('pointercancel',function(e){end(e,false)});
+  })();
+  var WXD=null, EQ={src:'',list:[],t:0}, TY=null, ALR=null, OM=null, WT=null, RO=null, ROP=load('pomo-rop','n');
+  var RES={list:[['石門',95.1],['翡翠',70.6],['寶二',91.9],['永和山',90.9],['鯉魚潭',96.0],['曾文',90.0],['南化',96.4]],t:0};
+  var HOL0={'2026-10-25':'光復節','2026-10-26':'補假','2026-12-25':'行憲紀念日','2027-01-01':'元旦'};
+  var STK0={'2026-10-26':1,'2026-12-25':1,'2027-01-01':1};
+  /* 北農（臺北市果菜批發市場）休市日：資料來源是臺北農產運銷公司官網「休市日查詢」(tapmc.com.tw/Pages/Market/Rest) 的
+     115、116 年休市日程表 PDF。規則：逢週一休市；NK_OPEN＝取消休市、照常開市的週一；NK_EXTRA＝週一以外的休市日
+     （春節、民俗節日後的調整、每月週四增休）。明年（117 年）的日程表公布後，照下面的格式補一行即可。
+     PDF 無法自動輪詢，所以這份是寫死的；沒有資料的年份會退回「只有週一休市」。 */
+  var NK_EXTRA={}, NK_OPEN={};
+  (function(){
+    var D={
+      '2026':{o:'02-16 02-23 03-02 06-22 09-28',
+              e:'02-17 02-18 02-19 02-20 02-21 02-25 02-26 03-04 03-05 04-05 04-06 06-20 06-21 08-28 08-29 09-26 09-27 '+
+                '01-08 01-22 03-26 04-23 05-07 05-21 06-11 07-09 07-23 08-06 09-10 10-08 10-22 11-12 11-26 12-03 12-17'},
+      '2027':{o:'08-16',
+              e:'02-06 02-07 02-09 02-10 02-14 02-21 02-22 04-05 04-06 06-10 06-11 08-17 08-18 09-16 09-17 '+
+                '01-07 01-21 03-11 03-25 04-22 05-06 05-20 06-24 07-08 07-22 08-26 09-23 10-07 10-21 11-11 11-25 12-09 12-23'}
+    };
+    Object.keys(D).forEach(function(y){
+      D[y].o.split(' ').forEach(function(m){NK_OPEN[y+'-'+m]=1});
+      D[y].e.split(' ').forEach(function(m){NK_EXTRA[y+'-'+m]=1});
+    });
+  })();
+  /* 每隔一段時間到北農官網「休市日查詢」頁看有沒有新年度的日程表 PDF（或已收錄年度出了更新版），有就在日曆下方提醒。
+     NK_YEARS＝已收錄的民國年 → 收錄時 PDF 網址上的版本碼；補了新年度的資料後，記得把它也加進來。 */
+  var NK_YEARS={115:'20250820',116:'20260823'};
+  function showNK(msgs,link,t){
+    var el=$('nkNote');if(!el)return;el.textContent='';
+    if(msgs.length){
+      var a=document.createElement('a');a.href=link;a.target='_blank';a.rel='noopener noreferrer';
+      a.textContent='⚠ '+msgs.join('；')+'，網頁裡的休市資料需要更新（點此看 PDF）';
+      a.style.color='#d9534f';a.style.fontWeight='700';el.appendChild(a);
+    }else{
+      el.textContent='休市日程表已於 '+mdhm(t)+' 與北農官網核對，沒有新版本。';
+    }
+  }
+  function checkNK(){
+    return getText('https://www.tapmc.com.tw/Pages/Market/Rest',true).then(function(t){
+      try{t=decodeURIComponent(t)}catch(e){}
+      var re=/(\d{3})年休市日程表\.pdf\??(\d*)/g,m,found={},ys;
+      while((m=re.exec(t)))found[m[1]]=m[2]||'';
+      ys=Object.keys(found).map(Number).sort();
+      if(!ys.length)return;                       /* 抓到的頁面裡沒有日程表連結（可能被代理改寫）：不下結論，不提醒 */
+      var maxKnown=Math.max.apply(null,Object.keys(NK_YEARS).map(Number)),msgs=[],link='https://www.tapmc.com.tw/Pages/Market/Rest';
+      ys.forEach(function(y){
+        var isNew=!NK_YEARS[y]&&y>maxKnown, changed=NK_YEARS[y]&&found[y]&&found[y]!==NK_YEARS[y];
+        if(isNew)msgs.push('北農官網已公布 '+y+' 年休市日程表');
+        else if(changed)msgs.push(y+' 年休市日程表有更新版');
+        if(isNew||changed)link=encodeURI('https://www.tapmc.com.tw/webatt/'+y+'年休市日程表.pdf')+(found[y]?'?'+found[y]:'');
+      });
+      showNK(msgs,link,Date.now());
+    }).catch(function(){});
+  }
+  /* 證交所休市或無交易的日子若不在政府假日表裡（例如春節前兩天只辦理交割、颱風停班停市），可在這裡手動補 */
+  var STK_EXTRA={};
+  function nkRest(d){var k=dkey(d);return NK_EXTRA[k]?true:(d.getDay()===1&&!NK_OPEN[k])}
+  var HOL=HOL0, STK=STK0;
+  (function(){
+    var c;
+    if((c=cacheGet('wx5')))WXD=c.v;
+    if((c=cacheGet('om1')))OM=c.v;
+    if((c=cacheGet('wt1')))WT=c.v;
+    if((c=cacheGet('ro1')))RO=c.v;
+    if((c=cacheGet('eq')))EQ=c.v;
+    if((c=cacheGet('res')))RES=c.v;
+    if((c=cacheGet('hol'))&&c.v&&c.v.HOL){HOL=c.v.HOL;STK=c.v.STK||{}}
+  })();
+
+  var ICON={
+    sun:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="12" r="5" fill="#F7B731"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" stroke="#F7B731" stroke-width="2" stroke-linecap="round"/></svg>',
+    part:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="8" cy="8" r="3.8" fill="#F7B731"/><path d="M7 17.5a3.5 3.5 0 0 1-.3-7A5.2 5.2 0 0 1 16.8 9a4.3 4.3 0 0 1 .7 8.5z" transform="translate(2 2.5)" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1"/></svg>',
+    rain:'<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M7 17.5a3.5 3.5 0 0 1-.3-7A5.2 5.2 0 0 1 16.8 9a4.3 4.3 0 0 1 .7 8.5z" transform="translate(0 -3)" fill="#A9BCD0" stroke="#7C93AB" stroke-width="1"/><path d="M8 17l-1 3.5M12 17l-1 3.5M16 17l-1 3.5" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/></svg>'
+  };
+  var TYI='<svg viewBox="-12 -12 24 24" width="26" height="26" aria-hidden="true"><g stroke="#E5533D" stroke-width="2.2" fill="none" stroke-linecap="round"><circle r="2.6" fill="#E5533D" stroke="none"/><path d="M0-4C7-5 10 2 6 7"/><path d="M0-4C7-5 10 2 6 7" transform="rotate(120)"/><path d="M0-4C7-5 10 2 6 7" transform="rotate(240)"/></g></svg>';
+  var EQI='<svg viewBox="-12 -12 24 24" width="26" height="26" aria-hidden="true"><circle r="3" fill="#F59E0B"/><circle r="7" fill="none" stroke="#F59E0B" stroke-width="2"/><circle r="10.5" fill="none" stroke="#F59E0B" stroke-width="1.5" stroke-opacity=".5"/></svg>';
+  var WI='<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M3 9h11a3 3 0 1 0-3-3M3 14h15a3 3 0 1 1-3 3M3 19h8" stroke="#4F7CFF" stroke-width="2" fill="none" stroke-linecap="round"/></svg>';
+  var WARN='<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 3L2.5 20h19z" fill="#F59E0B" stroke="#B45309" stroke-width="1.2" stroke-linejoin="round"/><path d="M12 9v5M12 16.8v.4" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>';
+  var NEED='<div class="wx-er"><div><b>颱風、特報需要氣象署授權碼</b><span>到 opendata.cwa.gov.tw 免費申請後貼上（只存在這台裝置）</span><button class="wx-all" data-act="key" type="button" style="margin:6px 0 0">設定授權碼</button></div></div>';
+
+  /* ---------- weather (中央氣象署 CWA 開放資料：臺北市鄉鎮天氣預報) ---------- */
+  /* F-D0047-063 = 臺北市未來 1 週（逐 12 小時）；F-D0047-061 = 臺北市未來 2 天（逐 3 小時） */
+  function cwaJ(id,extra){return getJSON(CWB+id+'?Authorization='+encodeURIComponent(CK)+'&format=JSON'+(extra||''),true)}
+  var TOWN='中山區';
+  function cwaEl(j){
+    var R=j&&j.records,Ls=R&&(R.Locations||R.locations),Lc=Ls&&Ls[0],lo=Lc&&(Lc.Location||Lc.location),pick=null,i;
+    /* 資料是整個縣市的行政區清單：優先取中山區，找不到才退回第一個區（其他縣市也是第一個區） */
+    if(lo)for(i=0;i<lo.length;i++){if((lo[i].LocationName||lo[i].locationName)===TOWN){pick=lo[i];break}}
+    lo=pick||(lo&&lo[0]);
+    return (lo&&(lo.WeatherElement||lo.weatherElement))||[];
+  }
+  /* 取出某個天氣要素的所有時段：[{s:開始ms, e:結束ms或null, k:日期, h:小時, v:值}] */
+  function cwaSlots(els,re,keys){
+    var out=[];
+    els.forEach(function(e){
+      if(!re.test(e.ElementName||e.elementName||''))return;
+      (e.Time||e.time||[]).forEach(function(t){
+        var s=t.StartTime||t.startTime||t.DataTime||t.dataTime,en=t.EndTime||t.endTime,ev=t.ElementValue||t.elementValue,v=null;
+        if(Array.isArray(ev))ev=ev[0];
+        if(ev==null||!s)return;
+        if(typeof ev!=='object')v=ev;
+        else{
+          for(var i=0;i<keys.length;i++)if(ev[keys[i]]!=null){v=ev[keys[i]];break}
+          if(v==null){var ks=Object.keys(ev);if(ks.length)v=ev[ks[0]]}
+        }
+        if(v==null)return;
+        out.push({s:Date.parse(s),e:en?Date.parse(en):null,k:String(s).slice(0,10),h:+String(s).slice(11,13),v:v});
+      });
+    });
+    return out;
+  }
+  function cnum(v){var n=parseFloat(v);return isFinite(n)?n:null}
+  function tpeKey(ms){var d=new Date(ms+8*3600000);return d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())+'T'+pad(d.getUTCHours())+':00'}
+  var RE_MAX=/^最高溫度$|^MaxT$/, RE_MIN=/^最低溫度$|^MinT$/, RE_AVG=/^平均溫度$|^溫度$|^T$/, RE_HUM=/相對濕度|^RH$/, RE_POP=/降雨機率|^PoP/, RE_WX=/^天氣現象$|^Wx$/, RE_WD=/^風向$|^WD$/;
+  var K_T=['Temperature','MaxTemperature','MinTemperature'], K_H=['RelativeHumidity'], K_P=['ProbabilityOfPrecipitation'], K_W=['Weather'], K_WD=['WindDirection'];
+  /* 圖示：以氣象署的「天氣現象」文字為準（雨／雷→雨；雲／陰→多雲；其餘→晴） */
+  function wxIcon(rain,code){
+    if(typeof code==='string'&&code){
+      if(/雨|雷|雪/.test(code))return 'rain';
+      if(/陰|雲/.test(code))return (rain!=null&&rain>=70)?'rain':'part';
+      return (rain!=null&&rain>=70)?'rain':'sun';
+    }
+    rain=rain||0;code=+code||0;
+    return (rain>=60||code>=61)?'rain':((rain>=30||code>=2)?'part':'sun');
+  }
+  function parseWx(jw,j2){
+    var E=cwaEl(jw),D={},days=[],hrs={};
+    function day(k){return D[k]||(D[k]={mx:[],mn:[],av:[],po:[],hu:[],wd:[],wx:null,wxD:false})}
+    cwaSlots(E,RE_MAX,['MaxTemperature']).forEach(function(x){var n=cnum(x.v);if(n!=null)day(x.k).mx.push(n)});
+    cwaSlots(E,RE_MIN,['MinTemperature']).forEach(function(x){var n=cnum(x.v);if(n!=null)day(x.k).mn.push(n)});
+    cwaSlots(E,RE_AVG,K_T).forEach(function(x){var n=cnum(x.v);if(n!=null)day(x.k).av.push(n)});
+    cwaSlots(E,RE_POP,K_P).forEach(function(x){var n=cnum(x.v);if(n!=null)day(x.k).po.push(n)});
+    cwaSlots(E,RE_HUM,K_H).forEach(function(x){var n=cnum(x.v);if(n!=null)day(x.k).hu.push(n)});
+    cwaSlots(E,RE_WD,K_WD).forEach(function(x){var v=String(x.v);if(/風/.test(v))day(x.k).wd.push(v)});
+    cwaSlots(E,RE_WX,K_W).forEach(function(x){
+      var d=day(x.k),isDay=x.h>=5&&x.h<=12;
+      if(!d.wx||(isDay&&!d.wxD)){d.wx=String(x.v);d.wxD=isDay}
+    });
+    Object.keys(D).sort().forEach(function(k){
+      var d=D[k],hi=d.mx.length?Math.max.apply(null,d.mx):(d.av.length?Math.max.apply(null,d.av):null),
+          lo=d.mn.length?Math.min.apply(null,d.mn):(d.av.length?Math.min.apply(null,d.av):null);
+      if(hi==null&&lo==null)return;
+      days.push({d:k,hi:hi==null?lo:hi,lo:lo==null?hi:lo,rain:d.po.length?Math.max.apply(null,d.po):null,code:d.wx||'',
+        hum:d.hu.length?Math.round(d.hu.reduce(function(a,b){return a+b},0)/d.hu.length):null,
+        wd:(function(){var c={},best=null;d.wd.forEach(function(v){c[v]=(c[v]||0)+1;if(!best||c[v]>c[best])best=v});return best})()});
+    });
+    if(!days.length)throw new Error('format');
+    /* 逐 3 小時資料 → 每個整點一格（點資料以前後各約 1.5 小時涵蓋） */
+    if(j2){
+      var E2=cwaEl(j2);
+      var fill=function(re,keys,idx,conv){
+        cwaSlots(E2,re,keys).forEach(function(x){
+          var a=x.s,b=x.e;if(!isFinite(a))return;
+          if(!b||!isFinite(b)){a=x.s-3600000;b=x.s+2*3600000}
+          for(var m=a;m<b;m+=3600000){var k=tpeKey(m),o=hrs[k]||(hrs[k]=[null,null,null,'',null]),v=conv(x.v);if(v!=null)o[idx]=v}
+        });
+      };
+      fill(RE_AVG,K_T,0,function(v){var n=cnum(v);return n==null?null:Math.round(n)});
+      fill(RE_POP,K_P,1,cnum);
+      fill(RE_HUM,K_H,2,function(v){var n=cnum(v);return n==null?null:Math.round(n)});
+      fill(RE_WX,K_W,3,function(v){return String(v)});
+      fill(RE_WD,K_WD,4,function(v){v=String(v);return /風/.test(v)?v:null});
+    }
+    return {days:days,hrs:hrs,t:Date.now(),src:'cwa'};
+  }
+  function drawWx(){
+    g.textContent='';
+    var today=dkey(new Date()), D=WXD?WXD.days.filter(function(w){return w.d>=today}).slice(0,7):[];
+    if(!D.length){var m=document.createElement('div');m.className='empty';m.style.gridColumn='1/-1';m.textContent='天氣資料載入中…';g.appendChild(m);return}
+    D.forEach(function(w){
+      var dt=new Date(w.d+'T00:00:00'), md=(dt.getMonth()+1)+'/'+dt.getDate();
+      var om=OM&&OM.days?OM.days[w.d]:null;if(om===undefined)om=null;
+      var wt=WT&&WT.days?WT.days[w.d]:null;if(wt===undefined)wt=null;
+      var c=document.createElement('div');c.className='wx-d'+(w.rain==null?'':(w.rain>30?' wet2':' wet'));
+      c.title=md+' 降雨機率 氣象署 '+(w.rain==null?'–':w.rain+'%')+'・Open-Meteo '+(om==null?'–':om+'%')+(wt==null?'':'・wttr.in '+wt+'%');
+      [['wx-w',w.d===today?'今天':WKD[dt.getDay()]],['wx-m',md],['wx-i',wxIcon(w.rain,w.code)],['wx-h',w.hi+'°'],['wx-l',w.lo+'°'],['wx-r','雨 '+(w.rain==null?'–':w.rain+'%')],['wx-om','OM '+(om==null?'–':om+'%')],['wx-wt',wt==null?'':'WT '+wt+'%'],['wx-u','濕 '+(w.hum==null?'–':w.hum+'%')],['wx-u',w.wd||'–']].forEach(function(p){
+        var s=document.createElement('div');s.className=p[0];
+        if(p[0]==='wx-i')s.innerHTML=ICON[p[1]];else s.textContent=p[1];
+        c.appendChild(s);
+      });
+      g.appendChild(c);
+    });
+  }
+  function buildHourly(){
+    hp.textContent='';
+    var base=new Date();base.setMinutes(0,0,0);
+    var t=document.createElement('div');t.className='wx-ht';t.textContent='未來 24 小時・每 2 小時一格（從現在起）';hp.appendChild(t);
+    var gr=document.createElement('div');gr.className='wx-hg';
+    for(var k=0;k<12;k++){
+      var d=new Date(base.getTime()+k*2*3600000);
+      var h=WXD&&WXD.hrs?WXD.hrs[dkey(d)+'T'+pad(d.getHours())+':00']:null;
+      var omh=OM&&OM.hrs?OM.hrs[dkey(d)+'T'+pad(d.getHours())+':00']:null;if(omh===undefined)omh=null;
+      var wth=WT&&WT.hrs?WT.hrs[dkey(d)+'T'+pad(d.getHours())+':00']:null;if(wth===undefined)wth=null;
+      var c=document.createElement('div');c.className='wx-hc'+(h&&h[1]!=null?(h[1]>30?' wet2':' wet'):'');
+      var m=document.createElement('div');m.className='wx-m';m.textContent=k===0?'現在':WKD[d.getDay()]+' '+pad(d.getHours())+':00';c.appendChild(m);
+      var i=document.createElement('div');i.className='wx-i';
+      if(h&&(h[0]!=null||h[1]!=null))i.innerHTML=ICON[wxIcon(h[1],h[3])];else i.textContent='–';
+      c.appendChild(i);
+      [['wx-hv',h&&h[0]!=null?h[0]+'°':'–'],['wx-r','雨 '+(h&&h[1]!=null?h[1]+'%':'–')],['wx-om','OM '+(omh==null?'–':omh+'%')],['wx-wt',wth==null?'':'WT '+wth+'%'],['wx-u','濕 '+(h&&h[2]!=null?h[2]+'%':'–')],['wx-u',h&&h[4]?h[4]:'–']].forEach(function(p){
+        var e=document.createElement('div');e.className=p[0];e.textContent=p[1];c.appendChild(e);
+      });
+      gr.appendChild(c);
+    }
+    hp.appendChild(gr);
+    var n=document.createElement('div');n.className='wx-hn';n.textContent='資料：中央氣象署預報（臺北市中山區）；降雨機率綠色＝氣象署、藍色 OM＝Open-Meteo（open-meteo.com）'+'、紫色 WT＝wttr.in（只有今天起 3 天）'+(WXD?'，'+mdhm(WXD.t)+' 更新'+(Date.now()-WXD.t>2*3600000?'（舊資料，可能未更新）':''):'')+'。點一下換下一個畫面。';hp.appendChild(n);
+  }
+  function loadWx(){
+    var pw=cwaJ('F-D0047-063'), p2=cwaJ('F-D0047-061').catch(function(){return null});
+    return Promise.all([pw,p2]).then(function(r){WXD=parseWx(r[0],r[1]);cacheSet('wx5',WXD);setSt('wx',true);refresh()}).catch(function(){setSt('wx',false);refresh()});
+  }
+
+  /* ---------- Open-Meteo：第二組降雨機率（免金鑰），與氣象署並排比較 ---------- */
+  function loadOM(){
+    var u='https://api.open-meteo.com/v1/forecast?latitude=25.04&longitude=121.56&daily=precipitation_probability_max&hourly=precipitation_probability&timezone=Asia%2FTaipei&forecast_days=8';
+    return getJSON(u,false).then(function(j){
+      var D={},H={},i,dt=(j.daily&&j.daily.time)||[],dv=(j.daily&&j.daily.precipitation_probability_max)||[],ht=(j.hourly&&j.hourly.time)||[],hv=(j.hourly&&j.hourly.precipitation_probability)||[];
+      for(i=0;i<dt.length;i++)if(dv[i]!=null&&isFinite(dv[i]))D[dt[i]]=Math.round(dv[i]);
+      for(i=0;i<ht.length;i++)if(hv[i]!=null&&isFinite(hv[i]))H[ht[i]]=Math.round(hv[i]);
+      if(!Object.keys(D).length&&!Object.keys(H).length)throw new Error('format');
+      OM={t:Date.now(),days:D,hrs:H};cacheSet('om1',OM);setSt('om',true);refresh();
+    }).catch(function(){setSt('om',false);refresh()});
+  }
+
+  /* ---------- wttr.in：第四組降雨機率（免金鑰，今天起 3 天、每 3 小時一筆） ---------- */
+  function loadWT(){
+    return getJSON('https://wttr.in/25.04,121.56?format=j1',false).then(function(j){
+      var D={},H={};
+      (j.weather||[]).forEach(function(d){
+        var mx=-1;
+        (d.hourly||[]).forEach(function(h){
+          var v=parseInt(h.chanceofrain,10);if(!isFinite(v))return;
+          if(v>mx)mx=v;
+          var base=Date.parse(d.date+'T00:00:00+08:00')+Math.floor((parseInt(h.time,10)||0)/100)*3600000;
+          for(var k=0;k<3;k++)H[tpeKey(base+k*3600000)]=v;
+        });
+        if(mx>=0)D[d.date]=mx;
+      });
+      if(!Object.keys(D).length)throw new Error('format');
+      WT={t:Date.now(),days:D,hrs:H};cacheSet('wt1',WT);setSt('wt',true);refresh();
+    }).catch(function(){setSt('wt',false);refresh()});
+  }
+
+  /* ---------- earthquakes / typhoon / alerts ---------- */
+  var CWB='https://opendata.cwa.gov.tw/api/v1/rest/datastore/';
+  function cwa(id,extra){return getJSON(CWB+id+'?Authorization='+encodeURIComponent(CK)+'&format=JSON'+(extra||''))}
+  var USGS='https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&minlatitude=21&maxlatitude=26.5&minlongitude=118.5&maxlongitude=123.5&minmagnitude=3.5&orderby=time&limit=5';
+  function rec(j){return (j&&(j.records||(j.result&&j.result.records)))||{}}
+  function arr(x){return x?(Array.isArray(x)?x:[x]):[]}
+  function parseEqCwa(j){
+    var a=arr(rec(j).Earthquake);
+    return {src:'cwa',t:Date.now(),list:a.slice(0,5).map(function(e){
+      var i=e.EarthquakeInfo||{}, c=i.Epicenter||i.EpiCenter||{}, m=i.EarthquakeMagnitude||{}, top=arr(e.Intensity&&e.Intensity.ShakingArea)[0]||{};
+      return {lon:parseFloat(c.EpicenterLongitude),lat:parseFloat(c.EpicenterLatitude),mag:parseFloat(m.MagnitudeValue),time:new Date(i.OriginTime).getTime(),place:String(c.Location||'').replace(/\s+/g,' '),it:top.CountyName?(top.CountyName+' '+top.AreaIntensity):''};
+    }).filter(function(q){return isFinite(q.lon)&&isFinite(q.lat)})};
+  }
+  function parseEqUsgs(j){
+    return {src:'usgs',t:Date.now(),list:(j.features||[]).slice(0,5).map(function(f){var c=f.geometry.coordinates,p=f.properties||{};return {lon:c[0],lat:c[1],mag:p.mag,time:p.time,place:p.place||'',it:''}})};
+  }
+  function nearTW(y){return y.cur.lon>=105&&y.cur.lon<=140&&y.cur.lat>=5&&y.cur.lat<=38}
+  function parseTy(j){
+    var a=arr(rec(j).TropicalCyclones&&rec(j).TropicalCyclones.TropicalCyclone);
+    function xy(f){return [parseFloat(f.CoordinateLongitude),parseFloat(f.CoordinateLatitude)]}
+    function ok(p){return isFinite(p[0])&&isFinite(p[1])}
+    return a.map(function(y){
+      var an=arr(y.AnalysisData&&y.AnalysisData.Fix).sort(function(p,q){return String(p.DateTime)<String(q.DateTime)?-1:1});
+      var fc=arr(y.ForecastData&&y.ForecastData.Fix).sort(function(p,q){return parseFloat(p.ForecastHour)-parseFloat(q.ForecastHour)});
+      var cur=an[an.length-1];if(!cur)return null;
+      var cp=xy(cur), last=fc[fc.length-1], mp=arr(cur.MovingPrediction).filter(function(m){return m.lang==='zh-hant'})[0];
+      var fcp=fc.map(xy).filter(ok);
+      return {name:y.CwaTyphoonName||y.TyphoonName||'熱帶氣旋',en:y.TyphoonName||'',
+        track:an.map(xy).filter(ok),fc:fcp,fe:fcp.length?fcp[fcp.length-1]:null,fcTau:last?last.ForecastHour:'',mp:mp?mp.value:'',
+        cur:{lon:cp[0],lat:cp[1],t:new Date(cur.DateTime).getTime(),wind:parseFloat(cur.MaxWindSpeed),gust:parseFloat(cur.MaxGustSpeed),pres:cur.Pressure,spd:cur.MovingSpeed,dir:cur.MovingDirection,
+          r7:parseFloat(cur.Circle15ms&&cur.Circle15ms.Radius)||0,r10:parseFloat(cur.Circle25ms&&cur.Circle25ms.Radius)||0}};
+    }).filter(function(y){return y&&ok([y.cur.lon,y.cur.lat])});
+  }
+  function parseAl(j){
+    var L=arr(rec(j).location), m={};
+    L.forEach(function(l){
+      arr(l.hazardConditions&&l.hazardConditions.hazards).forEach(function(h){var i=h.info||{},k=(i.phenomena||'')+(i.significance||'');if(!k)return;var o=m[k]||(m[k]={ph:i.phenomena||'',sg:i.significance||'',loc:[]});o.loc.push(l.locationName)});
+    });
+    return Object.keys(m).map(function(k){return m[k]});
+  }
+  function loadHazard(){
+    var pEq=(CK?cwa('E-A0015-001','&limit=5').then(parseEqCwa):Promise.reject()).catch(function(){return getJSON(USGS).then(parseEqUsgs)});
+    pEq.then(function(r){EQ=r;cacheSet('eq',r);setSt('eq',true);refresh()}).catch(function(){setSt('eq',false);refresh()});
+    if(!CK){TY={ok:false,list:[]};ALR={ok:false,list:[]};setSt('ty',false,'需授權碼');setSt('al',false,'需授權碼');refresh();return}
+    cwa('W-C0034-005').then(function(j){TY={ok:true,t:Date.now(),list:parseTy(j)};setSt('ty',true);refresh()}).catch(function(){TY=TY&&TY.ok?TY:{ok:false,list:[]};setSt('ty',false);refresh()});
+    cwa('W-C0033-001').then(function(j){ALR={ok:true,t:Date.now(),list:parseAl(j)};setSt('al',true);refresh()}).catch(function(){ALR=ALR&&ALR.ok?ALR:{ok:false,list:[]};setSt('al',false);refresh()});
+  }
+  var TW=[[121.5,25.3],[122.0,25.1],[121.85,24.55],[121.65,24.0],[121.4,23.1],[121.0,22.3],[120.85,21.9],[120.4,22.4],[120.2,23.0],[120.1,23.7],[120.4,24.4],[120.9,24.95],[121.3,25.2]];
+  function typhoonLevel(w){return !isFinite(w)?'':(w>=51?'強烈颱風':(w>=32.7?'中度颱風':(w>=17.2?'輕度颱風':'熱帶性低氣壓')))}
+  function buildHazard(){
+    var T=(TY&&TY.ok)?TY.list:[], TN=T.filter(nearTW), E=EQ.list||[], pts=TW.slice();
+    TN.forEach(function(y){y.track.concat(y.fc).forEach(function(q){pts.push(q)});pts.push([y.cur.lon,y.cur.lat])});
+    E.forEach(function(q){pts.push([q.lon,q.lat])});
+    var xs=pts.map(function(p){return p[0]}), ys=pts.map(function(p){return p[1]});
+    var x0=Math.min.apply(null,xs)-.7,x1=Math.max.apply(null,xs)+.7,y0=Math.min.apply(null,ys)-.7,y1=Math.max.apply(null,ys)+.7;
+    var SC=Math.min(240/(x1-x0),304/(y1-y0)), ox=(240-(x1-x0)*SC)/2, oy=(304-(y1-y0)*SC)/2;
+    function pj(lo,la){return [+(ox+(lo-x0)*SC).toFixed(1),+(oy+(y1-la)*SC).toFixed(1)]}
+    function kp(km){return +(km/111*SC).toFixed(1)}
+    var HALO='paint-order:stroke;stroke:var(--card);stroke-width:3px;fill:var(--ink);font-weight:700';
+    var m='<svg class="wx-map" viewBox="0 0 240 304" role="img" aria-label="颱風路徑與近期地震示意圖"><defs><clipPath id="wxClip"><rect width="240" height="304" rx="14"/></clipPath></defs><rect width="240" height="304" rx="14" style="fill:var(--card)"/><g clip-path="url(#wxClip)">';
+    TN.forEach(function(y){
+      var c=pj(y.cur.lon,y.cur.lat);
+      if(y.cur.r7)m+='<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+kp(y.cur.r7)+'" fill="#F7B731" fill-opacity=".16" stroke="#F59E0B" stroke-width="1.5"/>';
+      if(y.cur.r10)m+='<circle cx="'+c[0]+'" cy="'+c[1]+'" r="'+kp(y.cur.r10)+'" fill="#E5533D" fill-opacity=".22" stroke="#E5533D" stroke-width="1.5"/>';
+    });
+    m+='<polygon points="'+TW.map(function(q){return pj(q[0],q[1]).join(',')}).join(' ')+'" style="fill:var(--line);stroke:var(--muted)" stroke-width="1.2" stroke-linejoin="round"/>';
+    var tc=pj(120.75,23.6);m+='<text x="'+tc[0]+'" y="'+tc[1]+'" font-size="11" text-anchor="middle" style="fill:var(--muted)">台灣</text>';
+    TN.forEach(function(y){
+      var c=pj(y.cur.lon,y.cur.lat), ob=y.track.map(function(q){return pj(q[0],q[1])});
+      if(ob.length>1)m+='<polyline points="'+ob.map(function(q){return q.join(',')}).join(' ')+'" fill="none" style="stroke:var(--ink)" stroke-width="2" stroke-linejoin="round"/>';
+      if(y.fc.length){
+        var fp=y.fc.map(function(q){return pj(q[0],q[1])}), e=fp[fp.length-1];
+        m+='<polyline points="'+c.join(',')+' '+fp.map(function(q){return q.join(',')}).join(' ')+'" fill="none" stroke="#E5533D" stroke-width="2" stroke-dasharray="5 4"/>';
+        m+='<circle cx="'+e[0]+'" cy="'+e[1]+'" r="4.5" fill="var(--card)" stroke="#E5533D" stroke-width="2"/>';
+        if(y.fcTau!=='')m+='<text x="'+e[0]+'" y="'+(e[1]-9)+'" font-size="10.5" text-anchor="middle" style="'+HALO+'">預測 +'+esc(y.fcTau)+'h</text>';
+      }
+      var d=new Date(y.cur.t);
+      m+='<text x="'+c[0]+'" y="'+(c[1]-14)+'" font-size="10.5" text-anchor="middle" style="'+HALO+'">'+esc(y.name)+' '+d.getDate()+'日'+pad(d.getHours())+'時</text>';
+      m+='<g transform="translate('+c[0]+' '+c[1]+') scale(1.15)" stroke="#E5533D" stroke-width="2.4" fill="none" stroke-linecap="round" style="paint-order:stroke"><circle r="2.8" fill="#E5533D" stroke="none"/><path d="M0-4C7-5 10 2 6 7"/><path d="M0-4C7-5 10 2 6 7" transform="rotate(120)"/><path d="M0-4C7-5 10 2 6 7" transform="rotate(240)"/></g>';
+    });
+    E.slice(0,5).forEach(function(e){var q=pj(e.lon,e.lat),r=Math.max(3,(e.mag||3)*1.7);
+      m+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+r.toFixed(1)+'" fill="#F59E0B" fill-opacity=".25" stroke="#F59E0B" stroke-width="1.4"/><circle cx="'+q[0]+'" cy="'+q[1]+'" r="1.8" fill="#F59E0B"/>';});
+    m+='</g></svg>';
+    var lg='<div class="wx-lg"><span style="--c:var(--ink)">●</span> 已走路徑　<span style="--c:#E5533D">┅</span> 預測路徑　<span style="--c:#F59E0B">◯</span> 7 級風　<span style="--c:#E5533D">◯</span> 10 級風</div>';
+    function row(ic,b,sp,u){return '<a class="wx-er" data-u="'+u+'">'+ic+'<div><b>'+esc(b)+'</b><span>'+sp+'</span></div></a>'}
+    var rows='';
+    if(TY&&TY.ok){
+      if(T.length)T.forEach(function(y){
+        var c=y.cur, ln=[];
+        ln.push(esc(stamp(c.t))+'　'+c.lat.toFixed(1)+'°N '+c.lon.toFixed(1)+'°E');
+        if(y.mp)ln.push(esc(y.mp));else if(c.dir||c.spd)ln.push('向'+esc(c.dir||'')+' '+esc(c.spd||'')+' km/h');
+        if(isFinite(c.wind))ln.push('最大風速 '+c.wind+' m/s'+(c.pres?'・中心 '+esc(c.pres)+' hPa':''));
+        if(c.r7||c.r10)ln.push((c.r7?'7 級風 '+c.r7+' km':'')+(c.r7&&c.r10?'・':'')+(c.r10?'10 級風 '+c.r10+' km':''));
+        if(y.fe)ln.push('預測 +'+esc(y.fcTau)+'h '+y.fe[1].toFixed(1)+'°N '+y.fe[0].toFixed(1)+'°E');if(!nearTW(y))ln.push('距台灣較遠');
+        rows+=row(TYI,y.name+' '+typhoonLevel(c.wind),ln.join('<br>'),'https://www.cwa.gov.tw/');
+      });
+      else rows+=row(TYI,'目前沒有颱風','氣象署目前沒有發布熱帶氣旋路徑','https://www.cwa.gov.tw/');
+    }else rows+=NEED;
+    E.slice(0,3).forEach(function(e){
+      rows+=row(EQI,'規模 '+(isFinite(e.mag)?Number(e.mag).toFixed(1):'–')+(e.it?'・'+e.it:''),esc(mdhm(e.time)+' '+e.place),'https://scweb.cwa.gov.tw/');
+    });
+    if(!E.length)rows+=row(EQI,'近期沒有地震資料','尚未取得資料','https://scweb.cwa.gov.tw/');
+    var src='地震：'+(EQ.src==='cwa'?'氣象署':(EQ.src==='usgs'?'USGS（規模與氣象署可能略有差異，無震度）':'尚未取得'))+(EQ.t?'・'+stamp(EQ.t)+' 更新':'')+'。路徑圖為示意，以氣象署發布為準。點一下換下一個畫面，快速點兩下開啟氣象署網頁。';
+    ep.innerHTML='<div>'+m+lg+'</div><div>'+rows+'</div><div class="wx-en">'+src+'</div>';
+  }
+  function buildRes(){
+    var h='<div class="wx-ht">水庫蓄水率</div>';
+    RES.list.forEach(function(r){
+      var c=r[1]>=80?'#2FA4A0':(r[1]>=60?'#F59E0B':'#E5533D');
+      h+='<a class="wx-rr" data-u="https://www.wra.gov.tw/"><span>'+esc(r[0])+'</span><span class="wx-rb"><i style="width:'+Math.min(100,r[1])+'%;background:'+c+'"></i></span><span class="wx-rv-n">'+r[1].toFixed(1)+'%</span></a>';
+    });
+    var btnR=resBusy?'<div class="wx-hn">AI 查詢中…</div>':('<button class="wx-all" data-act="resai" type="button" style="margin:8px 0 0 auto">'+(AIK?'用 AI 查最新水情':'設定 API 金鑰後可用 AI 查水情')+'</button>'+(resErr?'<div class="wx-hn">AI 查詢失敗，請稍後再試。</div>':''));
+    rv.innerHTML=h+'<div class="wx-hn">'+(RES.t?(RES.ai?'AI 依網路搜尋整理'+(RES.when?'（資料時間 '+esc(RES.when)+'）':'')+'，':'水利署即時水情，')+stamp(RES.t)+' 更新。':'尚未取得即時資料，顯示快照：石門 10/24 上午 10 時、曾文 10/24 中午（約 9 成），其餘 10/22。')+'快速點兩下開啟水利署網頁。</div>'+btnR;
+  }
+  function buildAlerts(){
+    var h='<div class="wx-ht">氣象署特報（異常天氣）</div>';
+    if(ALR&&ALR.ok){
+      var L=ALR.list.map(function(a){a.red=(a.sg==='警報'||/豪雨|颱風/.test(a.ph));return a}).sort(function(a,b){return (b.red?1:0)-(a.red?1:0)});
+      if(!L.length)h+='<div class="empty">目前沒有發布特報</div>';
+      L.forEach(function(a){
+        var ic=/颱風/.test(a.ph)?TYI:(/雨/.test(a.ph)?ICON.rain:(/風|浪/.test(a.ph)?WI:WARN));
+        var loc=a.loc.slice(0,8).join('、')+(a.loc.length>8?' 等 '+a.loc.length+' 縣市':'');
+        h+='<a class="wx-ar" style="border-left-color:'+(a.red?'#E5533D':'#F59E0B')+'" data-u="https://www.cwa.gov.tw/">'+ic+'<div><b>'+esc(a.ph+a.sg)+'</b><span>'+esc(loc)+'</span></div></a>';
+      });
+    }else h+=NEED;
+    al.innerHTML=h+'<div class="wx-hn">'+(ALR&&ALR.ok?'氣象署開放資料，'+stamp(ALR.t)+' 更新。':'')+'快速點兩下開啟氣象署網頁。</div>';
+  }
+
+  /* ---------- reservoirs (WRA open data; best effort) ---------- */
+  var RMAP=[['石門','石門'],['翡翠','翡翠'],['寶二','寶山第二'],['永和山','永和山'],['鯉魚潭','鯉魚潭'],['曾文','曾文'],['南化','南化']];
+  function parseRes(j){
+    var a=Array.isArray(j)?j:(j&&(j.data||j.Data||j.ReservoirConditionData_OPENDATA||j.value))||[], out=[];
+    if(!Array.isArray(a))a=[];
+    RMAP.forEach(function(r){
+      var it=a.filter(function(x){var ks=Object.keys(x),nk=ks.filter(function(k){return /name/i.test(k)})[0];return nk&&String(x[nk]).indexOf(r[1])>=0})[0];
+      if(!it)return;
+      var ks=Object.keys(it), pk=ks.filter(function(k){return /percent|ratio|蓄水/i.test(k)})[0], v=pk?parseFloat(it[pk]):NaN;
+      if(!isFinite(v)){
+        var ck=ks.filter(function(k){return /capacity/i.test(k)})[0], sk=ks.filter(function(k){return /(storage|volume|content)/i.test(k)&&!/capacity/i.test(k)})[0];
+        if(ck&&sk)v=parseFloat(it[sk])/parseFloat(it[ck])*100;
+      }
+      if(isFinite(v)&&v>=0&&v<=100)out.push([r[0],v]);
+    });
+    if(!out.length)throw new Error('no reservoirs');
+    return {list:out,t:Date.now()};
+  }
+  function loadRes(){
+    var U=['https://opendata.wra.gov.tw/Service/OpenData.aspx?format=json&id=1602CA19-B224-4CC3-AA31-11B1B124530F','https://opendata.wra.gov.tw/Service/OpenData.aspx?format=json&id=50C8256D-30C5-4B8D-9B84-2E14D5C6DF71'];
+    return U.reduce(function(p,u){return p.catch(function(){return getJSON(u,true).then(parseRes)})},Promise.reject())
+      .then(function(r){RES=r;cacheSet('res',RES);setSt('rs',true);refresh()}).catch(function(){setSt('rs',false,'快照');refresh()});
+  }
+
+  /* ---------- egg price (best effort: the site has no open API) ---------- */
+  function showEgg(o){
+    var d=$('egL'),b=$('egB'),big=$('eggBig'),sub=$('eggSub'),a=$('rTP'),c=$('rTC'),n=$('eggNote');
+    if(!d)return;
+    d.textContent=o.date+' 蛋';b.textContent=o.tp;big.textContent=o.tp;fitInfo();
+    sub.textContent='資料日期 '+o.full+' · 元／台斤（600 公克，不含稅）';
+    a.lastChild.textContent='批發 '+o.tp+' · 大運輸 '+o.tpL;c.lastChild.textContent='批發 '+o.tc+' · 大運輸 '+o.tcL;
+    $('rTN').hidden=true;$('rWS').hidden=true;
+    n.textContent='來源：中一蛋品「台灣每日蛋價」（台北市蛋商公會公告）；產地行情參考中華食物網（工商時報）。'+stamp(o.t)+' 更新。';
+  }
+  /* ---------- 第二個蛋價來源：中華食物網（工商時報行情），當作實際價格參考 ---------- */
+  var FCU='www.foodchina.com.tw/model/marketing/listnew.aspx?PID=6';
+  function showEgg2(o){
+    var a=$('rFC'),b=$('rFC2');if(!a||!b)return;
+    a.firstChild.innerHTML='產地行情・中華食物網 <small style="color:var(--muted)">'+esc(o.date)+'</small>';
+    a.lastChild.textContent='北部 '+o.p[0]+' · 彰化 '+o.p[1]+' · 南投 '+o.p[2]+' · 嘉南 '+o.p[3]+' · 高屏 '+o.p[4];
+    b.lastChild.textContent=o.tp+' · '+o.tpL;
+  }
+  function loadEgg2(){
+    return tfetch('https://'+FCU).then(function(r){return r.text()}).catch(function(){return viaProxy('http://'+FCU,'text')}).then(function(h){
+      var t=h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ');
+      var a=t.match(/北部\s*彰化\s*南投\s*嘉南\s*高屏[\s\S]*?價格\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)/);
+      var b=t.match(/台北\s*台中\s*台南產地[\s\S]*?批發\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)[\s\S]*?大運輸\s*([\d.]+)/);
+      var d=t.match(/資料日期：\s*(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日/);
+      if(!a||!b||!d)throw new Error('parse');
+      var o={p:a.slice(1,6),tp:b[1],tpL:b[4],date:d[2]+'/'+d[3],t:Date.now()};
+      cacheSet('egg2',o);showEgg2(o);setSt('egg2',true);
+    }).catch(function(){var c=cacheGet('egg2');if(c)showEgg2(c.v);setSt('egg2',false,'未更新')});
+  }
+  function parseEgg(h){
+    var t=h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ');
+    var re=/批發\s*([\d.]+)\s*大運輸\s*([\d.]+)/g, a=re.exec(t), b=re.exec(t);
+    var dm=t.match(/(\d{4})\s*年\s*(\d{1,2})\s*月\s*(\d{1,2})\s*日\s*[（(]\s*([一二三四五六日])/);
+    if(!a||!b||!dm)throw new Error('parse');
+    return {tp:a[1],tpL:a[2],tc:b[1],tcL:b[2],date:dm[2]+'/'+dm[3]+' '+dm[4],full:dm[1]+'/'+dm[2]+'/'+dm[3]+' '+dm[4],t:Date.now()};
+  }
+  /* 該網站要執行網頁才有內容：先試直接/代理抓原始碼，不行再用會執行網頁的閱讀服務 */
+  function loadEgg(){
+    var U='https://egg.dachan.com/';
+    var srcs=[
+      function(){return getText(U,true)},
+      function(){return tfetch('https://r.jina.ai/'+U).then(function(r){return r.text()})},
+      function(){return tfetch('https://r.jina.ai/'+U,{headers:{'X-Timeout':'15'}}).then(function(r){return r.text()})}
+    ];
+    var k=0;
+    function next(){
+      if(k>=srcs.length)return Promise.reject(new Error('all'));
+      return srcs[k++]().then(parseEgg).catch(next);
+    }
+    return next().then(function(o){cacheSet('egg',o);showEgg(o);setSt('egg',true)}).catch(function(){
+      var c=cacheGet('egg');if(c)showEgg(c.v);
+      var n=$('eggNote');if(n&&!c)n.textContent='目前連不上蛋價網站，連上後會自動更新。';
+      setSt('egg',false,'未更新');
+    });
+  }
+  (function(){var c=cacheGet('egg');if(c&&c.v&&$('egL'))showEgg(c.v);var d=cacheGet('egg2');if(d&&d.v)showEgg2(d.v)})();
+
+  /* ---------- holidays (Taiwan government calendar, via jsDelivr) ---------- */
+  function cleanHol(s){return s.replace(/臺灣光復暨金門古寧頭大捷紀念日/,'光復節').replace(/孔子誕辰紀念日\//,'').replace(/中華民國開國紀念日|開國紀念日/,'元旦')}
+  function loadHol(){
+    var y=new Date().getFullYear(), H={}, S={}, any=false;
+    return Promise.all([y,y+1].map(function(yr){
+      return getJSON('https://cdn.jsdelivr.net/gh/ruyut/TaiwanCalendar/data/'+yr+'.json',true).then(function(a){
+        any=true;
+        a.forEach(function(e){
+          if(!e.isHoliday||!e.description)return;
+          var k=e.date.slice(0,4)+'-'+e.date.slice(4,6)+'-'+e.date.slice(6,8);
+          H[k]=cleanHol(e.description);
+          if(e.week!=='六'&&e.week!=='日')S[k]=1;
+        });
+      }).catch(function(){});
+    })).then(function(){
+      if(!any)throw new Error('no data');
+      HOL=H;STK=S;cacheSet('hol',{HOL:H,STK:S});setSt('hd',true);renderCal();
+    }).catch(function(){setSt('hd',false)});
+  }
+
+  /* ---------- AI search (Anthropic API with web search; key stays on this device) ---------- */
+  var AIK=load('pomo-ai-key','')||'', AIS={q:'',state:'idle'}, aiOn=false, aiN=0, wS=$('wxS');
+  var resBusy=false, resErr=false;
+  /* ---------- 菜價（農業部農產品交易行情開放資料，即 AMIS 的資料來源） ---------- */
+  var vegDiag={moa:'',site:'',relay:''}, vegFailT=0, vegNext=0;
+  var VEG0={date:'2026-10-26',snap:true,t:new Date('2026-10-26T01:20:00+08:00').getTime(),list:[['高麗菜',35,0,'2026-10-26'],['白菜',47.4,0,'2026-10-26'],['菠菜',72.1,0,'2026-10-21'],['空心菜',32.8,0,'2026-10-18'],['地瓜葉',25,0,'2026-10-24'],['莧菜',33.9,0,'2026-10-24'],['芥藍',30.7,0,'2026-10-24'],['小白菜',16,0,'2026-10-18'],['青江菜',20.9,0,'2026-10-21'],['茼蒿',63.9,0,'2026-10-24']]};
+  var VEG=(function(){var c=cacheGet('veg');return c?c.v:VEG0})(), vegOn=false, vegBusy=false, vegErr=false, vegFail=false, vegRetried=false, vegInit=false, wV=$('wxV'), btnV=$('wxVeg');
+  function rocStr(d){return (d.getFullYear()-1911)+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())}
+  function parseVeg(j,d){
+    var a=Array.isArray(j)?j:((j&&(j.Data||j.data))||[]);if(!Array.isArray(a))a=[];
+    var want=rocStr(d).split('.').map(Number), m={};
+    a.forEach(function(x){
+      var tc=x.TcType||x['種類代碼'];if(tc&&tc!=='N04')return;
+      var nm=String(x.CropName||x['作物名稱']||''), avg=parseFloat(x.Avg_Price!=null?x.Avg_Price:x['平均價']), qt=parseFloat(x.Trans_Quantity!=null?x.Trans_Quantity:x['交易量']);
+      var dt=String(x.TransDate||x.Trans_Date||x['交易日期']||'').match(/(\d{2,3})\D*(\d{2})\D*(\d{2})$/);
+      if(dt&&(+dt[1]!==want[0]||+dt[2]!==want[1]||+dt[3]!==want[2]))return;
+      var b=nm.split(/[-－(（]/)[0].trim();
+      if(!b||/其他|其它|休市/.test(nm)||!isFinite(avg)||avg<=0||!(qt>0))return;
+      var o=m[b]||(m[b]={s:0,q:0});o.s+=avg*qt;o.q+=qt;
+    });
+    var L=Object.keys(m).map(function(k){return [k,m[k].s/m[k].q,m[k].q]}).sort(function(p,r){return r[2]-p[2]}).slice(0,10);
+    if(!L.length)throw new Error('no veg');
+    return {date:dkey(d),list:L,t:Date.now()};
+  }
+  /* 從今天往前找，最多 7 天，找到有交易資料的最近一天（週一休市會自動退回） */
+  function loadVeg(){
+    if(vegBusy)return Promise.resolve();
+    vegBusy=true;vegErr=false;if(vegOn)refresh();
+    var days=[];for(var i=0;i<7;i++){var d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-i);days.push(d)}
+    var chain=days.reduce(function(p,d){
+      return p.then(function(r){
+        if(r)return r;
+        var rs=rocStr(d);
+        var U=['https://data.moa.gov.tw/api/v1/AgriProductsTransType/?Start_time='+rs+'&End_time='+rs+'&TcType=N04','https://data.moa.gov.tw/Service/OpenData/FromM/FarmTransData.aspx?TcType=N04&StartDate='+rs+'&EndDate='+rs+'&$top=5000'];
+        return U.reduce(function(q,u){return q.catch(function(){return getJSON(u,true).then(function(j){return parseVeg(j,d)})})},Promise.reject()).catch(function(e){vegDiag.moa=String((e&&e.message)||e||'失敗');return null});
+      });
+    },vegRelay());
+    return chain.then(function(r){
+      vegBusy=false;
+      if(r){VEG=r;cacheSet('veg',r);setSt('veg',true);vegFail=false;vegRetried=false;vegNext=0;refresh();return}
+      return vegSite().then(function(r2){
+        return r2||null;
+      }).then(function(g){
+        vegBusy=false;
+        if(g&&!g.retail){VEG=g;cacheSet('veg',g);setSt('veg',true,'農時價');vegFail=false;vegRetried=false;vegNext=0}
+        else{
+          if(g){VEG=g;cacheSet('veg',g)}
+          vegErr=true;vegFail=true;vegFailT=Date.now();setSt('veg',false,g?'僅零售月資料':'失敗');
+          if(!vegRetried){vegRetried=true;vegNext=Date.now()+10000;setTimeout(loadVeg,10000)}else{vegNext=(LAST.veg||Date.now())+EVERY.veg*60000}
+        }
+        refresh();
+      });
+    });
+  }
+  /* 第一順位：自建中繼（GitHub Actions 定時抓農業部資料，存成 veg.json；瀏覽器只讀這個小檔，不必再靠第三方代理）。
+     把下面網址的 YOUR_NAME / YOUR_REPO 換成你的 GitHub 帳號與儲存庫名稱；沒換之前會自動略過，行為和以前一樣。 */
+  var VEG_URL='/veg.json';
+  function vegRelay(){
+    if(!VEG_URL||/YOUR_/.test(VEG_URL)){vegDiag.relay='';return Promise.resolve(null)}
+    return tfetch(VEG_URL+'?_='+Date.now()).then(function(r){return r.json()}).then(function(j){
+      if(!j||!/^\d{4}-\d{2}-\d{2}$/.test(j.date||'')||!Array.isArray(j.list)||!j.list.length)throw new Error('格式不符');
+      var L=j.list.filter(function(x){return x&&isFinite(x[1])&&x[1]>0}).map(function(x){return [String(x[0]),+x[1],+x[2]||0]});
+      if(!L.length)throw new Error('沒有品項');
+      var age=(Date.now()-new Date(j.date+'T00:00:00+08:00'))/864e5;
+      if(age>7)throw new Error('資料過舊（'+j.date+'）');
+      return {date:j.date,list:L,t:Date.now(),relay:true};
+    }).catch(function(e){vegDiag.relay=String((e&&e.message)||e||'失敗');return null});
+  }
+  /* 備援：農時價網站（tw-veggieprice）每種菜一頁，讀 10 種常見蔬菜的最新批發均價 */
+  var VCROPS=['高麗菜','白菜','菠菜','空心菜','地瓜葉','莧菜','芥藍','小白菜','青江菜','茼蒿'];
+  function vegSite(){
+    vegBusy=true;
+    return Promise.all(VCROPS.map(function(c){
+      return getText('https://tw-veggieprice.vercel.app/produce/'+encodeURIComponent(c),true).then(function(h){
+        var t=h.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g,' ').replace(/<[^>]+>/g,' ').replace(/&nbsp;/g,' ').replace(/\s+/g,' ');
+        var m=t.match(/(\d{4}-\d{2}-\d{2})\s+(\d+(?:\.\d+)?)\s+(?:—|-|\d)/);
+        if(!m)throw new Error('parse');
+        return [c,parseFloat(m[2]),0,m[1]];
+      }).catch(function(e){vegDiag.site=String((e&&e.message)||e||'失敗');return null});
+    })).then(function(a){
+      var L=a.filter(function(x){return x&&isFinite(x[1])&&x[1]>0});
+      if(L.length<3)return null;
+      var d=L.map(function(x){return x[3]}).sort().pop();
+      return {date:d,list:L.map(function(x){return [x[0],x[1],0]}),t:Date.now(),site:true};
+    });
+  }
+  function vegAgeTag(){
+    if(!VEG||!VEG.date)return '';
+    var n=Math.round((new Date(dkey(new Date())+'T00:00:00')-new Date(VEG.date+'T00:00:00'))/864e5);
+    if(!isFinite(n))return '';if(n<0)n=0;
+    var c=n<=2?'#4caf7d':(n<=7?'#5b9bd5':(n<=14?'#e0a030':'#e04f4f'));
+    return '<span style="color:'+c+'">●</span> '+(n===0?'今天':n+' 天前')+'・';
+  }
+  function buildVeg(){
+    var h='<div class="wx-ht">'+(VEG&&VEG.retail?'蔬菜行情・10 種常見蔬菜（臺北市公有零售市場・零售價）・元/公斤':((VEG&&(VEG.site||VEG.snap))?'蔬菜行情・10 種常見蔬菜（農時價）・元/公斤':'蔬菜行情・交易量前十名（全國批發市場）・元/公斤'))+'</div>';
+    if(VEG){
+      var dt=new Date(VEG.date+'T00:00:00');
+      var half=Math.ceil(VEG.list.length/2);
+      h+='<div class="wx-vg" style="grid-template-rows:repeat('+half+',auto)">';
+      VEG.list.forEach(function(r,i){h+='<div class="wx-vr'+((i===0||i===half)?' first':'')+'"><span class="vk">'+(i+1)+'</span><span class="vn">'+esc(r[0])+'</span><span class="vp">'+r[1].toFixed(1)+((r[3]&&r[3]!==VEG.date)?'<small>'+r[3].slice(5).replace('-','/')+'</small>':'')+'</span></div>'});
+      h+='</div><div class="wx-hn">'+vegAgeTag()+(VEG.retail?'資料月份 '+esc(VEG.month||'不明'):'資料日期 '+VEG.date.replace(/-/g,'/')+' 週'+WKD[dt.getDay()])+(VEG.retail?'・這是臺北市公有零售市場的月行情（零售價，非批發價，僅供參考；批發資料取不到時才顯示）・':VEG.snap?'・這是 10/26 查到的快照（農時價整理的農業部資料），各菜日期不同，非交易量排名。能連上網時會自動更新・':(VEG.site?'・批發均價，依農時價網站整理（農業部資料），非交易量排名・':'・平均價為各市場依交易量加權・'))+stamp(VEG.t)+' 更新。'+(vegBusy?'更新中…':(vegErr?'最新資料取得失敗（'+stamp(vegFailT)+'），'+(vegNext?'下次自動重試 '+stamp(vegNext)+'。':'')+'原因：開放資料「'+esc(vegDiag.moa||'無')+'」；農時價「'+esc(vegDiag.site||'無')+'」；自建中繼「'+esc(vegDiag.relay||'未設定')+'」。':''))+'</div>';
+    }else h+='<div class="empty">'+(vegBusy?'搜尋中…':(vegErr?'暫時無法取得資料，請稍後按「重新搜尋」，或按「開啟 AMIS」到官網查看。<div class="wx-hn">錯誤原因（請回報給我）：開放資料「'+esc(vegDiag.moa||'無')+'」；農時價「'+esc(vegDiag.site||'無')+'」；自建中繼「'+esc(vegDiag.relay||'未設定')+'」。'+(location.protocol==='file:'?'':'目前不是用本機檔案開啟（'+esc(location.protocol)+'），可能被網頁環境擋掉對外連線。')+'</div>':'尚未取得資料'))+'</div>';
+    h+='<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:8px"><button class="wx-all" data-act="vegrefresh" type="button" style="margin:0">重新搜尋</button><a class="wx-all" href="https://amis.afa.gov.tw/main/Main.aspx" target="_blank" rel="noopener noreferrer" style="margin:0;display:inline-flex;align-items:center;text-decoration:none">開啟 AMIS</a></div>';
+    wV.innerHTML=h;
+  }
+  function callAI(sys,q){
+    var c=window.AbortController?new AbortController():null, to=setTimeout(function(){if(c)c.abort()},60000);
+    var o={method:'POST',headers:{'content-type':'application/json','x-api-key':AIK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:1024,system:sys,tools:[{type:'web_search_20250305',name:'web_search',max_uses:4}],messages:[{role:'user',content:q}]})};
+    if(c)o.signal=c.signal;
+    return fetch('https://api.anthropic.com/v1/messages',o).then(function(r){clearTimeout(to);if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){
+      return (j.content||[]).filter(function(b){return b.type==='text'}).map(function(b){return b.text||''}).join('');
+    });
+  }
+  function resAI(){
+    if(!AIK){setAiKey();return}
+    resBusy=true;resErr=false;refresh();
+    callAI('你是資料查詢助手。只輸出 JSON，不要任何其他文字或 Markdown。','請上網查詢水利署最新的水庫蓄水率（今天或最近一次的資料），回傳 JSON 陣列，每項為 [名稱, 蓄水率百分比數字, 資料時間字串]。名稱固定使用：石門、翡翠、寶二、永和山、鯉魚潭、曾文、南化。查不到的水庫請省略。')
+    .then(function(txt){
+      var m=txt.match(/\[[\s\S]*\]/);if(!m)throw new Error('no json');
+      var a=JSON.parse(m[0]), out=[];
+      a.forEach(function(x){var v=parseFloat(x[1]);if(x[0]&&isFinite(v)&&v>=0&&v<=100)out.push([String(x[0]),v])});
+      if(!out.length)throw new Error('empty');
+      RES={list:out,t:Date.now(),ai:true,when:String(a[0][2]||'')};
+      cacheSet('res',RES);resBusy=false;setSt('rs',true);refresh();
+    }).catch(function(){resBusy=false;resErr=true;refresh()});
+  }
+  function setAiKey(){
+    var k=prompt('貼上 Anthropic API 金鑰（console.anthropic.com 建立；只存在這台裝置，留空可清除）',AIK);
+    if(k===null)return;
+    AIK=k.trim();store('pomo-ai-key',AIK);
+    if(AIK&&AIS.q)askAI(AIS.q);else{refresh()}
+  }
+  function askAI(q){
+    aiOn=true;vegOn=false;camOn=false;AIS={q:q,state:AIK?'load':'need'};refresh();
+    if(!AIK)return;
+    var my=++aiN, c=window.AbortController?new AbortController():null, to=setTimeout(function(){if(c)c.abort()},60000);
+    var d=new Date();
+    var sys='你是儀表板裡的搜尋助手。用繁體中文回答，使用者在台灣台北，今天是 '+d.getFullYear()+'/'+(d.getMonth()+1)+'/'+d.getDate()+'（週'+WKD[d.getDay()]+'）。需要最新資訊時請先上網搜尋。答案精簡、直接給重點，約 200 字內，純文字，不要使用 Markdown 符號。';
+    var o={method:'POST',headers:{'content-type':'application/json','x-api-key':AIK,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-5-5',max_tokens:1024,system:sys,tools:[{type:'web_search_20250305',name:'web_search',max_uses:3}],messages:[{role:'user',content:q}]})};
+    if(c)o.signal=c.signal;
+    fetch('https://api.anthropic.com/v1/messages',o).then(function(r){
+      return r.json().catch(function(){return {}}).then(function(j){if(!r.ok)throw {status:r.status,msg:(j.error&&j.error.message)||''};return j});
+    }).then(function(j){
+      if(my!==aiN)return;
+      var txt=[],src=[],seen={};
+      (j.content||[]).forEach(function(b){
+        if(b.type!=='text')return;
+        txt.push(b.text||'');
+        (b.citations||[]).forEach(function(x){if(x.url&&!seen[x.url]&&/^https?:\/\//.test(x.url)){seen[x.url]=1;src.push({u:x.url,t:x.title||x.url})}});
+      });
+      AIS={q:q,state:'ok',text:txt.join('').trim()||'沒有找到相關結果。',src:src,t:Date.now()};store('pomo-ai-last',{q:q,text:AIS.text,src:src,t:AIS.t});
+      refresh();
+    }).catch(function(e){
+      if(my!==aiN)return;
+      var m=e&&e.status===401?'API 金鑰無效或已被停用。':(e&&e.status===429?'請求太頻繁或額度用完，稍後再試。':(e&&e.name==='AbortError'?'搜尋逾時，請再試一次。':'搜尋失敗'+(e&&e.status?'（'+e.status+(e.msg?'：'+e.msg:'')+'）':'，可能是網路問題。')));
+      AIS={q:q,state:'err',err:m,bad:!!(e&&e.status===401)};refresh();
+    }).then(function(){clearTimeout(to)});
+  }
+  function buildAI(){
+    var h='<div class="wx-ht">AI 搜尋・'+esc(AIS.q)+'</div>';
+    var key='<button class="wx-all" data-act="aikey" type="button" style="margin:6px 0 0">設定 API 金鑰</button>';
+    if(AIS.state==='need')h+='<div class="wx-er"><div><b>需要 Anthropic API 金鑰</b><span>到 console.anthropic.com 建立後貼上，只存在這台裝置；每次搜尋依用量計費。</span>'+key+'</div></div>';
+    else if(AIS.state==='load')h+='<div class="empty">搜尋中…</div>';
+    else if(AIS.state==='err')h+='<div class="wx-ai-t">'+esc(AIS.err)+'</div>'+(AIS.bad?key:'');
+    else if(AIS.state==='ok'){
+      h+='<div class="wx-ai-t">'+esc(AIS.text).replace(/\n/g,'<br>')+'</div>';
+      if(AIS.src.length)h+='<div class="wx-ai-s">'+AIS.src.slice(0,5).map(function(a){return '<a href="'+esc(a.u)+'" target="_blank" rel="noopener noreferrer">'+esc(a.t)+'</a>'}).join('')+'</div>';
+      h+='<div class="wx-hn">AI 生成並附網路搜尋，'+stamp(AIS.t)+'；內容可能有誤，重要資訊請查證。</div>';
+    }
+    h+='<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;margin-top:8px">'+((AIS.state==='ok'||AIS.state==='err')?'<button class="wx-all" data-act="airetry" type="button" style="margin:0">重新搜尋</button>':'')+'<button class="wx-all" data-act="google" type="button" style="margin:0">用 Google 搜尋</button><button class="wx-all" data-act="aiclose" type="button" style="margin:0">返回天氣</button></div>';
+    wS.innerHTML=h;
+  }
+  (function(){var c=load('pomo-ai-last',null);if(c&&c.text){AIS={q:c.q,state:'ok',text:c.text,src:c.src||[],t:c.t};$('aiQ').value=c.q}})();
+  /* 搜尋：按「搜尋」才在下方出現輸入欄（黃底）；按別的功能或送出後就收起來 */
+  function srchOpen(on){
+    var f=$('aiForm'),b=$('wxSearch');if(!f||!b)return;
+    f.hidden=!on;b.setAttribute('aria-pressed',String(on));
+    if(on){try{$('aiQ').focus()}catch(x){}}
+  }
+  $('wxSearch').addEventListener('click',function(e){e.stopPropagation();srchOpen($('aiForm').hidden)});
+  document.querySelector('.wx-bar').addEventListener('click',function(e){
+    var b=e.target.closest('.wx-all');if(b&&b.id!=='wxSearch')srchOpen(false);
+  },true);
+  $('aiForm').addEventListener('submit',function(e){
+    e.preventDefault();
+    var q=$('aiQ').value.trim();if(q){try{window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank','noopener,noreferrer')}catch(x){}}
+    try{$('aiQ').blur()}catch(x){}
+    srchOpen(false);
+  });
+
+  /* ---------- 相機翻譯：開啟 Google 鏡頭（Google app），拍攝畫面即時翻成中文 ---------- */
+  (function(){
+    var cb=$('wxCam');if(!cb)return;
+    var FALLBACK='https://translate.google.com/?sl=auto&tl=zh-TW&op=images';
+    cb.addEventListener('click',function(){
+      var left=false, ua=navigator.userAgent||'';
+      /* iPhone：用捷徑「Translate with Google Lens」直接開到鏡頭的翻譯畫面（第一次要先加入捷徑） */
+      var isIOS=/iPhone|iPad|iPod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+      if(isIOS){
+        var st=load('pomo-lens-sc',0), ADD='https://www.icloud.com/shortcuts/38e70ef475cb4d3db2530986fc2a62ef';
+        if(st!==2){
+          /* 0＝還沒加入；1＝已開過加入頁，但不確定有沒有加成功；2＝確認已加入 */
+          if(st===1&&confirm('你已經在「捷徑」App 加入「Translate with Google Lens」了嗎？\n\n確定：已加入，直接執行\n取消：還沒有，重新開啟加入頁面')){
+            store('pomo-lens-sc',2);
+          }else{
+            if(st===0&&!confirm('第一次使用：需要先把「Translate with Google Lens」捷徑加入你的 iPhone（只做一次）。\n按「確定」開啟加入頁面，點「加入捷徑」；加好後回來再按一次「相機翻譯」。'))return;
+            store('pomo-lens-sc',1);
+            try{window.open(ADD,'_blank','noopener,noreferrer')}catch(e){}
+            return;
+          }
+        }
+        /* 長按 0.8 秒可以重設（出現「找不到捷徑」時用） */
+        try{window.location.href='shortcuts://run-shortcut?name='+encodeURIComponent('Translate with Google Lens')}catch(e){}
+        return;
+      }
+      function onHide(){if(document.hidden)left=true}
+      document.addEventListener('visibilitychange',onHide);
+      window.addEventListener('pagehide',onHide);
+      var isAndroid=/Android/i.test(ua);
+      /* Android：用 intent 開 Google app 的鏡頭；iPhone：用 googleapp://lens */
+      var url=isAndroid
+        ?'intent://lens#Intent;scheme=googleapp;package=com.google.android.googlequicksearchbox;S.browser_fallback_url='+encodeURIComponent(FALLBACK)+';end'
+        :'googleapp://lens';
+      try{window.location.href=url}catch(e){}
+      setTimeout(function(){
+        document.removeEventListener('visibilitychange',onHide);
+        window.removeEventListener('pagehide',onHide);
+        /* 沒有跳到 App（例如電腦或沒裝 Google app）：改開 Google 翻譯的圖片翻譯網頁 */
+        if(!left&&!isAndroid){try{window.open(FALLBACK,'_blank','noopener,noreferrer')}catch(e){}}
+      },1500);
+    });
+  })();
+
+  /* 長按「相機翻譯」0.8 秒：重設捷徑狀態（出現「找不到捷徑」時，重新加入用） */
+  (function(){
+    var cb=$('wxCam'),t=null,fired=false;if(!cb)return;
+    cb.addEventListener('pointerdown',function(){fired=false;clearTimeout(t);t=setTimeout(function(){fired=true;store('pomo-lens-sc',0);try{if(navigator.vibrate)navigator.vibrate(30)}catch(e){}alert('已重設。下次按「相機翻譯」會重新帶你加入捷徑。')},800)});
+    ['pointerup','pointerleave','pointercancel'].forEach(function(ev){cb.addEventListener(ev,function(){clearTimeout(t)})});
+    cb.addEventListener('click',function(e){if(fired){e.stopImmediatePropagation();e.preventDefault();fired=false}},true);
+  })();
+
+  /* ---------- Rain forecast map of Taiwan: live from 中央氣象署 CWA, 10/24 snapshot as fallback ---------- */
+  var RAIN=[['台北',121.56,25.04,75,10,'l'],['宜蘭',121.75,24.76,55,15,'r'],['台中',120.67,24.15,75,10,'l'],['花蓮',121.6,23.98,30,45,'r'],['台東',121.14,22.76,10,45,'r'],['高雄',120.3,22.63,20,0,'l']];
+  var RAINID=['F-D0047-063','F-D0047-003','F-D0047-075','F-D0047-043','F-D0047-039','F-D0047-067']; /* 臺北、宜蘭、臺中、花蓮、臺東、高雄 各縣市未來 1 週（氣象署） */
+  var RD=(function(){var c=cacheGet('rain2');return c?c.v:null})();
+  function loadRain(){
+    if(RD&&Date.now()-RD.t<20000)return Promise.resolve();
+    var d0=new Date(),k0=dkey(d0),k1=dkey(new Date(d0.getTime()+86400000));
+    return Promise.all(RAINID.map(function(id){
+      return cwaJ(id,'&ElementName='+encodeURIComponent('12小時降雨機率')).then(function(j){
+        var m={};
+        cwaSlots(cwaEl(j),RE_POP,K_P).forEach(function(x){var n=cnum(x.v);if(n!=null)m[x.k]=Math.max(m[x.k]==null?-1:m[x.k],n)});
+        return [m[k0]==null?null:m[k0],m[k1]==null?null:m[k1]];
+      }).catch(function(){return [null,null]});
+    })).then(function(v){
+      if(!v.some(function(p){return p[0]!=null||p[1]!=null}))throw new Error('format');
+      RD={t:Date.now(),days:[k0,k1],v:v,src:'cwa'};
+      cacheSet('rain2',RD);setSt('rain',true);refresh();
+    }).catch(function(){setSt('rain',false);refresh()});
+  }
+  function rainColor(p){return p>=60?'#2563EB':(p>=30?'#60A5FA':(p>=10?'#BFDBFE':'#E2E8F0'))}
+
+  /* ---------- 目前累積雨量：氣象署雨量站（O-A0002-001），依縣市取最大站 ---------- */
+  var RO_BASE='https://www.cwa.gov.tw/Data/rainfall/', RO_IMG=RO_BASE+'QZJ.jpg', RO_PAGE='https://www.cwa.gov.tw/V8/C/P/Rainfall/Rainfall_QZJ.html', ROIMG=roUrl(0), ROIMG_T=Date.now();
+  /* 氣象署每 10 分鐘出一張：網址 = 日期_時分.QZJ8.jpg（臺灣時間，例 2026-11-09_1630.QZJ8.jpg）。k=0 取最新一張（先扣 5 分鐘讓圖有時間產生），k 越大越往前一張 */
+  function roUrl(k){
+    var t=Math.floor((Date.now()-5*60000)/600000)*600000-(k||0)*600000, d=new Date(t+8*3600000);
+    return RO_BASE+d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate())+'_'+pad(d.getUTCHours())+pad(d.getUTCMinutes())+'.QZJ8.jpg';
+  }
+  function newRoImg(){ROIMG=roUrl(0);ROIMG_T=Date.now()}
+  /* 圖片載入失敗時依序重試：先往前找前 6 張（每 10 分鐘一張）→ 氣象署固定網址 QZJ.jpg → 圖片中繼 wsrv.nl → 內建快照 */
+  window.__roErr=function(im){
+    var n=+(im.getAttribute('data-f')||0)+1;im.setAttribute('data-f',n);
+    if(n<=6)im.src=roUrl(n);
+    else if(n===7)im.src=RO_IMG+'?_='+ROIMG_T;
+    else if(n===8)im.src='https://wsrv.nl/?url='+encodeURIComponent(roUrl(1).replace(/^https:\/\//,''));
+    else if(n===9){im.src=RO_SNAP;im.insertAdjacentHTML('afterend','<div class="wx-hn">連不上氣象署，先顯示 11/09 16:30 的快照（圖上的時間就是快照時間）。有網路時按「立即更新」會再重抓最新圖。</div>')}
+    else im.style.display='none';
+  };
+  /* 圖片載入成功：從網址讀出這張圖的資料時間 */
+  window.__roOk=function(im){
+    var el=document.getElementById('roSlot'),m=/(\d{4})-(\d\d)-(\d\d)_(\d\d)(\d\d)\.QZJ8/.exec(im.src||'');
+    if(el)el.textContent=m?'圖片資料時間 '+(+m[2])+'/'+(+m[3])+' '+m[4]+':'+m[5]+'；':'';
+  };
+  var RO_CT=['臺北市','宜蘭縣','臺中市','花蓮縣','臺東縣','高雄市'];
+  var RO_PD=[['n','今日累積'],['h1','1 小時'],['h3','3 小時'],['h6','6 小時'],['h24','24 小時']];
+  var RO_EL={n:'Now',h1:'Past1hr',h3:'Past3hr',h6:'Past6hr',h24:'Past24hr'};
+  function roVal(o){
+    var v=o&&o.Precipitation!=null?parseFloat(o.Precipitation):NaN;
+    if(!isFinite(v))return null;
+    if(v===-998)return 0;            /* -998 ＝ 微量／無雨 */
+    return v<0?null:v;
+  }
+  var RO_K=['n','h1','h3','h6','h24'];
+  function loadRO(){
+    newRoImg();   /* 進入這個畫面／定時更新：換新的圖片網址，強制重抓最新的圖 */
+    return cwaJ('O-A0002-001').then(function(j){
+      var S=arr(rec(j).Station||rec(j).station),agg={},mx={},tm='',n=0,pts=[];
+      S.forEach(function(s){
+        var geo=s.GeoInfo||{},cn=String(geo.CountyName||'').replace(/台/g,'臺'),nm=String(s.StationName||''),re=s.RainfallElement||{};
+        var ot=s.ObsTime&&s.ObsTime.DateTime;if(ot&&String(ot)>tm)tm=String(ot);
+        if(!cn)return;
+        var la=NaN,lo=NaN,co=geo.Coordinates;
+        if(Array.isArray(co)&&co.length){var c=co.filter(function(x){return /WGS84/i.test(x.CoordinateName||'')})[0]||co[0];la=parseFloat(c.StationLatitude);lo=parseFloat(c.StationLongitude)}
+        if(!isFinite(la)||!isFinite(lo)){la=parseFloat(s.StationLatitude!=null?s.StationLatitude:geo.StationLatitude);lo=parseFloat(s.StationLongitude!=null?s.StationLongitude:geo.StationLongitude)}
+        var vs=[];
+        RO_K.forEach(function(k){
+          var v=roVal(re[RO_EL[k]]);vs.push(v);if(v==null)return;n++;
+          var a=agg[cn]||(agg[cn]={});
+          if(!a[k]||v>a[k][0])a[k]=[v,nm];
+          if(!mx[k]||v>mx[k][0])mx[k]=[v,nm,cn];
+        });
+        if(isFinite(la)&&isFinite(lo))pts.push([+lo.toFixed(3),+la.toFixed(3),cn.slice(0,2),nm].concat(vs));
+      });
+      if(!n)throw new Error('format');
+      RO={t:Date.now(),obs:tm,agg:agg,mx:mx,pts:pts};cacheSet('ro1',RO);setSt('ro',true);refresh();
+    }).catch(function(){setSt('ro',false);refresh()});
+  }
+  function roColor(v){return v<1?'#9CA3AF':(v<10?'#BFDBFE':(v<40?'#60A5FA':(v<80?'#F59E0B':(v<200?'#E5533D':'#7C3AED'))))}
+  /* 氣象署「日累積雨量」圖：放在雨量預測畫面最上面，進入畫面、按立即更新、每 5 分鐘都會重抓 */
+  function rainLive(){
+    return '<div class="wx-ht">今日累積雨量圖・氣象署即時資訊（0 時至現在）</div>'
+      +'<a class="ro-img" href="'+RO_PAGE+'" target="_blank" rel="noopener noreferrer" style="display:block;margin-bottom:10px"><img src="'+ROIMG+'" alt="氣象署今日累積雨量圖" referrerpolicy="no-referrer" style="display:block;width:100%;max-width:520px;height:auto;margin:0 auto;border-radius:12px;background:#fff" onerror="window.__roErr(this)" onload="window.__roOk(this)"></a>'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 12px"><div class="wx-hn" style="margin:0;text-align:left"><span id="roSlot"></span>本頁 '+stamp(ROIMG_T)+' 取得，每 5 分鐘自動更新（氣象署每 10 分鐘出一張）。點圖開啟氣象署網頁。</div><button class="wx-all" data-act="roimg" type="button" style="margin:0">立即更新</button></div>';
+  }
+  function obsHtml(){
+    var h='<div class="wx-ht" style="margin-top:14px">全臺雨量站・目前累積雨量</div>'
+      +'<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:8px">'
+      +RO_PD.map(function(p){return '<button class="wx-all" data-act="ropd" data-p="'+p[0]+'" type="button"'+(p[0]===ROP?' aria-pressed="true"':'')+' style="margin:0">'+p[1]+'</button>'}).join('')+'</div>';
+    if(!RO)return h+'<div class="empty">雨量資料載入中…</div>';
+    var idx=4+RO_K.indexOf(ROP), pl=RO_PD.filter(function(p){return p[0]===ROP})[0][1];
+    /* 全臺雨量站分布圖：每個雨量站一個點，依所選時段的累積雨量上色 */
+    var P=(RO.pts||[]).filter(function(p){return p[0]>=119.9&&p[0]<=122.2&&p[1]>=21.8&&p[1]<=25.45&&p[idx]!=null});
+    if(P.length){
+      var LO=119.9,LA=25.45,SC=110,W=Math.ceil(2.3*SC),H=Math.ceil(3.65*SC);
+      var pm=function(lo,la){return [+((lo-LO)*SC).toFixed(1),+((LA-la)*SC).toFixed(1)]};
+      var m='<svg class="wx-map" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="全臺雨量站'+pl+'累積雨量分布"><rect width="'+W+'" height="'+H+'" rx="12" style="fill:var(--card)"/><polygon points="'+TW.map(function(q){return pm(q[0],q[1]).join(',')}).join(' ')+'" style="fill:var(--line);stroke:var(--muted)" stroke-width="1.2" stroke-linejoin="round"/>';
+      P.slice().sort(function(a,b){return a[idx]-b[idx]}).forEach(function(p){
+        var q=pm(p[0],p[1]),v=p[idx];
+        m+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(v<1?1.3:2.7)+'" fill="'+roColor(v)+'"'+(v<1?' fill-opacity=".55"':' stroke="#fff" stroke-opacity=".7" stroke-width=".6"')+'/>';
+      });
+      m+='</svg>';
+      var tp=P.slice().sort(function(a,b){return b[idx]-a[idx]}).slice(0,8);
+      var ls=tp.map(function(p){return '<div style="display:flex;justify-content:space-between;gap:8px;padding:3px 0;font-size:.8rem;font-weight:700;color:var(--ink)"><span>'+esc(p[3])+' <span style="color:var(--muted);font-weight:400">'+esc(p[2])+'</span></span><span style="font-variant-numeric:tabular-nums">'+p[idx].toFixed(1)+'</span></div>'}).join('');
+      h+='<div class="wx-rmt">全臺雨量站・'+pl+'累積雨量（'+P.length+' 站）</div><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;margin-bottom:8px"><div style="flex:0 1 250px;min-width:180px;margin:0 auto">'+m+'</div><div style="flex:1 1 150px;min-width:140px"><div class="wx-rmt" style="text-align:left">雨量最大的站（mm）</div>'+ls+'</div></div>';
+    }else h+='<div class="wx-hn">雨量站位置資料更新後，這裡會顯示全臺雨量分布圖。</div>';
+    var rows=[['全台',RO.mx[ROP]?[RO.mx[ROP][0],RO.mx[ROP][1]+'（'+RO.mx[ROP][2]+'）']:null]];
+    RAIN.forEach(function(c,i){var a=RO.agg[RO_CT[i]];rows.push([c[0],a&&a[ROP]?a[ROP]:null])});
+    var top=10;rows.forEach(function(r){if(r[1]&&r[1][0]>top)top=r[1][0]});
+    h+='<div class="wx-rmt" style="margin-top:6px">各縣市雨量站最大值（mm）</div>';
+    rows.forEach(function(r){
+      var v=r[1]?r[1][0]:null;
+      h+='<div class="wx-rr" title="'+esc(r[1]?r[1][1]:'無資料')+'"><span>'+esc(r[0])+'</span><span class="wx-rb"><i style="width:'+(v==null?0:Math.max(v>0?2:0,Math.min(100,v/top*100)))+'%;background:'+roColor(v||0)+'"></i></span><span class="wx-rv-n">'+(v==null?'–':v.toFixed(1))+'</span></div>';
+    });
+    var m2=RO.mx[ROP],ot=RO.obs?Date.parse(RO.obs):NaN;
+    return h+'<div class="wx-lg">'+[['#9CA3AF','<1'],['#BFDBFE','1-9'],['#60A5FA','10-39'],['#F59E0B','40-79'],['#E5533D','80-199'],['#7C3AED','200+']].map(function(x){return '<span class="wx-sw" style="background:'+x[0]+'"></span>'+x[1]}).join('')+' mm</div>'
+      +'<div class="wx-hn">'+(m2?'全台最大：'+esc(m2[1])+'（'+esc(m2[2])+'）'+m2[0].toFixed(1)+' mm。':'')+'資料：氣象署雨量站'+(isFinite(ot)?'，觀測 '+mdhm(ot):'')+'，'+stamp(RO.t)+' 更新；「今日累積」是從今天 0 時起算。</div>';
+  }
+  function buildMap(){
+    var LO=119.6,LA=25.6,SC=54,W=Math.ceil((122.4-LO)*SC),H=Math.ceil((LA-21.8)*SC);
+    function pm(lo,la){return [+((lo-LO)*SC).toFixed(1),+((LA-la)*SC).toFixed(1)]}
+    var poly=TW.map(function(q){return pm(q[0],q[1]).join(',')}).join(' ');
+    function val(i,idx){var v=RD&&RD.v[i]&&RD.v[i][idx];return (v==null||!isFinite(v))?RAIN[i][3+idx]:v}
+    function one(idx,title){
+      var m='<svg class="wx-map" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+title+'各地降雨機率"><rect width="'+W+'" height="'+H+'" rx="12" style="fill:var(--card)"/><polygon points="'+poly+'" style="fill:var(--line);stroke:var(--muted)" stroke-width="1.2" stroke-linejoin="round"/>';
+      RAIN.forEach(function(c,i){
+        var p=pm(c[1],c[2]),v=val(i,idx),left=c[5]==='l';
+        m+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="9.5" fill="'+rainColor(v)+'" stroke="#fff" stroke-opacity=".75" stroke-width="1.5"/>'
+          +'<text x="'+p[0]+'" y="'+(p[1]+3.4)+'" font-size="9.5" font-weight="700" text-anchor="middle" style="fill:'+(v>=30?'#fff':'#1E3A8A')+'">'+v+'</text>'
+          +'<text x="'+(left?p[0]-13:p[0]+13)+'" y="'+(p[1]+3.6)+'" font-size="10" font-weight="700" text-anchor="'+(left?'end':'start')+'" style="paint-order:stroke;stroke:var(--card);stroke-width:3px;fill:var(--ink)">'+c[0]+'</text>';
+      });
+      return m+'</svg>';
+    }
+    function md(idx){
+      if(RD&&RD.days&&RD.days[idx]){var q=RD.days[idx].split('-');return (+q[1])+'/'+(+q[2])}
+      return idx?'10/25':'10/24';
+    }
+    var lg='<div class="wx-lg">降雨機率'
+      +[['#E2E8F0','<10'],['#BFDBFE','10-29'],['#60A5FA','30-59'],['#2563EB','60+']].map(function(x){return '<span class="wx-sw" style="background:'+x[0]+'"></span>'+x[1]}).join('')+' %</div>';
+    var note=RD?'資料：中央氣象署各縣市預報，'+stamp(RD.t)+' 更新。開啟時、每 30 分鐘、點進這個畫面都會自動更新。':'目前無法連線，顯示 10/24 的快照。有網路時會自動更新。';
+    mp.innerHTML=rainLive()+'<div class="wx-ht">下雨預報・台灣各地降雨機率</div><div class="wx-rmg"><div><div class="wx-rmt">今天 '+md(0)+'</div>'+one(0,'今天')+'</div><div><div class="wx-rmt">明天 '+md(1)+'</div>'+one(1,'明天')+'</div></div>'+lg+obsHtml()
+      +'<div class="wx-hn">'+note+'快速點兩下開啟氣象署網頁。</div>';
+  }
+
+  /* ---------- UI wiring ---------- */
+  var wxAt=0;
+  function wxNow(){var n=Date.now();if(n-wxAt<4000)return;wxAt=n;LAST.wx=n;LAST.rain=n;LAST.hz=n;LAST.om=n;LAST.wt=n;LAST.ro=n;try{loadWx();loadRain();loadHazard();loadOM();loadWT();loadRO()}catch(e){}}
+  function refresh(){
+    var S=[g,hp,mp,ep,rv,al];
+    drawWx();
+    if(!camOn&&(aiOn||vegOn||all||view<6)){cp.hidden=true;unloadCam()}
+    wS.hidden=!aiOn;wV.hidden=!(vegOn&&!aiOn);btnV.setAttribute('aria-pressed',String(vegOn));$('wxLive').setAttribute('aria-pressed',String(camOn));btn.setAttribute('aria-pressed',String(!!all));
+    if(aiOn){S.forEach(function(x){x.hidden=true});buildAI()}
+    else if(camOn){S.forEach(function(x){x.hidden=true});cp.hidden=false;buildCamPick()}
+    else if(vegOn){S.forEach(function(x){x.hidden=false});buildHourly();buildHazard();buildRes();buildAlerts();buildMap();buildVeg()}
+    else if(all){S.forEach(function(x){x.hidden=false});buildHourly();buildHazard();buildRes();buildAlerts();buildMap()}
+    else if(view>=6){S.forEach(function(x){x.hidden=true});cp.hidden=false;buildCam(view-6)}
+    else{
+      S.forEach(function(x,k){x.hidden=(k!==view)});
+      if(view===1)buildHourly();else if(view===2)buildMap();else if(view===3)buildHazard();else if(view===4)buildRes();else if(view===5)buildAlerts();
+    }
+    box.classList.toggle('all',all||(vegOn&&!aiOn));
+    btn.textContent=all?'收合':'全部';
+    var dw=$('wxDots');dw.style.display=(all||aiOn||vegOn||camOn)?'none':'';
+    for(var k=0;k<dots.length;k++)dots[k].className=(!all&&k===view)?'on':'';
+  }
+  /* One tap: left half = previous view, right half = next view. Two quick taps = open the related web page. */
+  var URLS=['https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=6300400','https://www.cwa.gov.tw/V8/C/W/Town/Town.html?TID=6300400','https://www.cwa.gov.tw/V8/C/W/index.html','https://www.cwa.gov.tw/','https://www.wra.gov.tw/','https://www.cwa.gov.tw/','https://tw.live/','https://tw.live/','https://tw.live/','https://www.youtube.com/','https://www.youtube.com/'], pendT=null;
+  function urlFor(t){
+    var a=t.closest&&t.closest('[data-u]');if(a)return a.getAttribute('data-u');
+    var S=[g,hp,mp,ep,rv,al];
+    for(var k=0;k<S.length;k++){if(S[k].contains(t))return URLS[k]}
+    return URLS[view];
+  }
+  box.addEventListener('click',function(e){
+    if(Date.now()-swipedAt<500)return;
+    if(e.target.closest('#wxNews')){clearTimeout(pendT);pendT=null;return}
+    var an=e.target.closest('#wxDots .dn');
+    if(an){clearTimeout(pendT);pendT=null;view=(view+(+an.getAttribute('data-d'))+NV)%NV;wxNow();refresh();return}
+    var dt=e.target.closest('#wxDots i');
+    if(dt){
+      clearTimeout(pendT);pendT=null;
+      view=Array.prototype.indexOf.call(dots,dt);
+      wxNow();
+      refresh();return;
+    }
+    var nv=e.target.closest('[data-cnav]');
+    if(nv){clearTimeout(pendT);pendT=null;var nd=+nv.getAttribute('data-cnav');if(camOn){if(camSel)camStep(nd)}else camPageStep(nd);return}
+    if(e.target.closest('[data-act="key"]')){
+      var k=prompt('貼上中央氣象署開放資料授權碼（opendata.cwa.gov.tw 免費申請；留空使用內建授權碼）',CK);
+      if(k!==null){k=k.trim();store('pomo-cwa-key',k);CK=k||'CWA-FA43F496-A848-4641-A5A5-FCDA978C29F6';runDue(true)}
+      return;
+    }
+    var act=e.target.closest('[data-act]'), an=act&&act.getAttribute('data-act');
+    if(an==='aikey'){setAiKey();return}
+    if(an==='aiclose'){aiOn=false;refresh();return}
+    if(an==='airetry'){askAI(AIS.q);return}
+    if(an==='google'){try{window.open('https://www.google.com/search?q='+encodeURIComponent(AIS.q||$('aiQ').value),'_blank','noopener,noreferrer')}catch(x){}return}
+    if(an==='resai'){resAI();return}
+    if(an==='roimg'){LAST.ro=Date.now();loadRO();refresh();return}
+    if(an==='ropd'){ROP=act.getAttribute('data-p')||'n';store('pomo-rop',ROP);refresh();return}
+    if(an==='vegrefresh'){vegRetried=false;loadVeg();return}
+    if(e.target.closest('#wxLive')){camOn=!camOn;if(camOn){aiOn=false;vegOn=false;all=false;camSel=''}refresh();return}
+    if(e.target.closest('#wxVeg')){vegOn=!vegOn;if(vegOn){aiOn=false;all=false;camOn=false;vegRetried=false;loadVeg();wxNow()}refresh();return}
+    var cmb=e.target.closest('[data-cam]');
+    if(cmb&&camOn){var cid=cmb.getAttribute('data-cam');camSel=(camSel===cid)?'':cid;refresh();return}
+    if(e.target.closest('#wxC')&&camOn)return;
+    if(e.target.closest('#wxC a'))return;
+    if((e.target.closest('.wx-bar')&&!e.target.closest('#wxAll'))||e.target.closest('#aiForm'))return;
+    if(e.target.closest('.ro-img'))return;   /* 點雨量圖：直接開氣象署網頁，不切換畫面 */
+    if(e.target.closest('#wxS')||e.target.closest('#wxV'))return;
+    if(e.target.closest('#wxR')&&e.target.closest('button'))return;
+    if(e.target.closest('#wxAll')){aiOn=false;vegOn=false;camOn=false;all=!all;if(all)wxNow();refresh();return}
+    if(pendT){
+      clearTimeout(pendT);pendT=null;
+      try{window.open(urlFor(e.target),'_blank','noopener,noreferrer')}catch(x){}
+      return;
+    }
+    var br=box.getBoundingClientRect(), goPrev=e.clientX<br.left+br.width/2;
+    pendT=setTimeout(function(){pendT=null;if(!all&&!vegOn){view=(view+(goPrev?NV-1:1))%NV;wxNow();refresh()}},280);
+  });
+
+  /* ---------- Market closure calendar: next 2 weeks (Monday rest day + holidays) ---------- */
+  /* 日期區（左半）與休假區（右半）各佔一半；同一字級 f。時鐘寬度縮到左半邊、高度拉高。右欄文字可換行 */
+  function fitInfo(){
+    var info=document.querySelector('.info'),L=document.querySelector('.info-l'),R=document.querySelector('.info-r'),clk=$('nowTime');
+    if(!info||!L||!R||!clk||!info.clientWidth)return;
+    var lines=Array.prototype.slice.call(info.querySelectorAll('.now-date,.now-lunar,.r-info,#nowHol a'));
+    var ll=lines.filter(function(e){return L.contains(e)}), rl=lines.filter(function(e){return R.contains(e)});
+    var W=info.clientWidth, gap=parseFloat(getComputedStyle(info).columnGap)||16, half=Math.floor((W-2*gap-2-6)/2);
+    L.style.flex='none';L.style.width=half+'px';R.style.flex='none';R.style.width=half+'px';R.style.alignSelf='center';R.style.justifyContent='flex-start';
+    var Lw=0;
+    ll.forEach(function(e){e.style.fontSize='100px';e.style.whiteSpace='nowrap';e.style.width='max-content';var w=e.getBoundingClientRect().width;e.style.width='';if(w>Lw)Lw=w});
+    Lw/=100;
+    clk.style.transform='none';clk.style.height='';clk.style.fontSize='100px';clk.style.width='max-content';
+    var Cw=clk.getBoundingClientRect().width/100;clk.style.width='';
+    rl.forEach(function(e){e.style.whiteSpace='normal';e.style.wordBreak='keep-all';e.style.overflowWrap='normal'});
+    function apply(f){lines.forEach(function(e){e.style.fontSize=f+'px'})}
+    function ok(f){apply(f);return R.scrollHeight<=14*f+20&&R.scrollWidth<=R.clientWidth+1}
+    var top=Math.min(60,(half-2)/Lw), best=6;
+    for(var f=top;f>=6;f-=.5){if(ok(f)){best=f;break}}
+    apply(best);
+    /* 左欄日期、農曆：字級撐滿欄寬 */
+    var fl=Math.min(60,(half-2)/Lw);
+    ll.forEach(function(e){e.style.fontSize=fl+'px'});
+    /* 時鐘：左右撐滿欄寬，上下比之前再縮小 1.2 倍 */
+    var c=Math.min((half-2)/Cw,200);
+    clk.style.transform='none';clk.style.height='';clk.style.fontSize=c+'px';clk.style.lineHeight='.8';
+    var Rh=R.scrollHeight, lh=0;ll.forEach(function(e){lh+=e.offsetHeight});
+    var room=Math.max(c,Rh-lh-4)*1.2, H=room*2/1.44/1.2, k=Math.min(H/(c*.8),30);
+    clk.style.height=(c*.8*k)+'px';
+    clk.style.transform='scaleY('+k+')';clk.style.setProperty('--k',k);clk.style.transformOrigin='center top';
+    /* 右欄（蛋價、假日、休市）：字級往上加大，直到高度剛好填滿左欄高度，不留空格 */
+    var T=H+lh, f2=best;
+    function fillR(f){rl.forEach(function(e){e.style.fontSize=f+'px'});return R.scrollHeight<=T&&R.scrollWidth<=R.clientWidth+1}
+    for(var f=best+.25;f<=80;f+=.25){if(fillR(f))f2=f;else break}
+    rl.forEach(function(e){e.style.fontSize=f2+'px'});
+    /* 北農休市那一行：盡量縮成一行（最小縮到 60%，再不行才換行） */
+    var ri=$('restInfo');
+    if(ri){
+      ri.style.whiteSpace='nowrap';ri.style.width='max-content';
+      var rw=ri.getBoundingClientRect().width;ri.style.width='';
+      var av=R.clientWidth;
+      if(rw>av){
+        var fs=Math.max(f2*av/rw*.98,f2*.6);ri.style.fontSize=fs+'px';
+        ri.style.width='max-content';rw=ri.getBoundingClientRect().width;ri.style.width='';
+        if(rw>av+1)ri.style.whiteSpace='normal';
+      }
+    }
+    L.style.justifyContent='center';
+  }
+  window.addEventListener('resize',fitInfo);if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitInfo);setTimeout(fitInfo,0);
+  function fitLine(el){el.style.fontSize='';var f=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>el.clientWidth+1&&f>9){f-=.5;el.style.fontSize=f+'px'}}
+  function renderCal(){
+    var cal=$('cal');cal.textContent='';
+    ['一','二','三','四','五','六','日'].forEach(function(n){
+      var h=document.createElement('div');h.className='cal-h';h.textContent=n;cal.appendChild(h);
+    });
+    var t=new Date();t.setHours(0,0,0,0);
+    for(var b=0;b<(t.getDay()+6)%7;b++)cal.appendChild(document.createElement('div'));
+    for(var i=0;i<14;i++){
+      var d=new Date(t);d.setDate(t.getDate()+i);
+      var key=dkey(d), rest=nkRest(d), hol=HOL[key];
+      var c=document.createElement('div');
+      c.className='cal-d'+(rest?' rest':'')+(hol?' hol':'')+(i===0?' today':'');
+      c.textContent=(i===0||d.getDate()===1)?(d.getMonth()+1)+'/'+d.getDate():d.getDate();
+      var s=document.createElement('small');s.textContent=rest?'休市':(hol||'');
+      c.appendChild(s);
+      c.title=(d.getMonth()+1)+'月'+d.getDate()+'日'+(rest?' 休市':'')+(hol?' '+hol:'');
+      cal.appendChild(c);
+    }
+    var L=[];for(var k=0;k<14;k++){var x=new Date(t);x.setDate(t.getDate()+k);if(nkRest(x))L.push({k:k,wd:WKD[x.getDay()],t:(k===0?'今天':(x.getMonth()+1)+'/'+x.getDate())});}
+    var ri=$('restInfo');ri.textContent='';
+    var dd=document.createElement('span');L.forEach(function(o){dd.appendChild(document.createTextNode(o.t+' '));var w=document.createElement('span');w.textContent=o.wd;if(o.k<=3)w.className='wk-red';dd.appendChild(w);dd.appendChild(document.createTextNode(' '))});ri.appendChild(dd);
+    var rl=document.createElement('span');rl.className='rl';rl.textContent='北農休';ri.appendChild(rl);
+    fitInfo();
+    var hs=[],ss=[];
+    for(var q=0;q<14;q++){
+      var y=new Date(t);y.setDate(t.getDate()+q);
+      var hk=dkey(y);
+      if(HOL[hk])hs.push({y:y,q:q,n:HOL[hk]});
+      if(STK[hk]||STK_EXTRA[hk])ss.push({y:y,q:q});
+    }
+    var hel=$('nowHol');hel.textContent='';
+    function dayNode(p,o){
+      p.appendChild(document.createTextNode((o.y.getMonth()+1)+'/'+o.y.getDate()+' '));
+      var w=document.createElement('span');w.textContent=WKD[o.y.getDay()];
+      if(o.q<=3)w.className='wk-red';
+      p.appendChild(w);
+    }
+    function mkA(href){var r=document.createElement('a');r.href=href;r.target='_blank';r.rel='noopener noreferrer';hel.appendChild(r);return r}
+    if(hs.length)hs.forEach(function(o){var r=mkA('https://www.dgpa.gov.tw/');dayNode(r,o);r.appendChild(document.createTextNode(' '+o.n))});
+    else mkA('https://www.dgpa.gov.tw/').textContent='無假日';
+    var rs=mkA('https://www.twse.com.tw/');
+    if(ss.length){ss.forEach(function(o,k){if(k)rs.appendChild(document.createTextNode('、'));dayNode(rs,o)});rs.appendChild(document.createTextNode(' 股休'))}
+    else rs.textContent='近期無股休';
+    fitInfo();
+  }
+
+  /* ---------- scheduler: on open, then on a timer, when the tab returns, when back online ---------- */
+  var EVERY={wx:30,hz:10,rs:60,hd:60,egg:60,egg2:60,rain:30,veg:60,om:30,wt:30,ro:10,nk:360};   /* 單位：分鐘。hd 假日（連動股市與北農休市）、nk 北農日程表更新檢查 */
+  var FN={ro:loadRO,wx:loadWx,om:loadOM,wt:loadWT,hz:loadHazard,rs:loadRes,hd:loadHol,egg:loadEgg,egg2:loadEgg2,rain:loadRain,nk:checkNK,veg:function(){vegInit=true;return loadVeg()}}, dayK=dkey(new Date());
+  function runDue(force){
+    var now=Date.now();
+    Object.keys(FN).forEach(function(k){
+      if(force||!LAST[k]||now-LAST[k]>=EVERY[k]*60000){LAST[k]=now;try{FN[k]()}catch(e){}}
+    });
+  }
+  setInterval(function(){
+    var k=dkey(new Date());
+    if(k!==dayK){dayK=k;renderCal();refresh();LAST.wx=0;LAST.hd=0;LAST.rain=0}
+    runDue(false);
+  },60000);
+  /* 雨量圖：畫面開著時每 5 分鐘重抓一次（不必離開再進來） */
+  setInterval(function(){if(document.visibilityState==='visible'&&mp&&!mp.hidden){LAST.ro=Date.now();loadRO()}},300000);
+  document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible'){runDue(false);if(view>=6||camOn)refresh()}else unloadCam()});
+  window.addEventListener('online',function(){runDue(true)});
+  var stEl=$('liveSt');if(stEl)stEl.addEventListener('click',function(){runDue(true)});
+  renderCal();refresh();drawSt();
+  runDue(true);
+
+  /* Alarm: ring flashes and beeps until pressed and held */
+  var ringEl=document.querySelector('.ring');
+  /* 把秒數念成中文：300 → 五分鐘、450 → 七分三十秒、5400 → 一小時三十分鐘 */
+  function zhNum(n){
+    var Z=['零','一','二','三','四','五','六','七','八','九'];
+    if(n===2)return '兩';
+    if(n<10)return Z[n];
+    var t=Math.floor(n/10),o=n%10;
+    return (t===1?'':Z[t])+'十'+(o?Z[o]:'');
+  }
+  function durText(sec){
+    var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60,o='';
+    if(h)o+=zhNum(h)+'小時';
+    if(m)o+=zhNum(m)+(s?'分':'分鐘');
+    if(s)o+=zhNum(s)+'秒';
+    return o||'零秒';
+  }
+  /* 時間到：不響鈴，用語音反覆報出當初設定的時間，直到按鍵（或點螢幕、長按、耳機鍵）取消 */
+  function announceTimer(secs){
+    var txt=durText(secs),ss=window.speechSynthesis,t0=0;
+    function say(first){
+      if(!alarming)return;
+      try{
+        var now=Date.now();
+        if(!first&&(ss.speaking||ss.pending)){
+          if(now-t0>12000){ss.cancel()}   /* 語音卡住超過 12 秒就清掉，下一輪重念 */
+          return;
+        }
+        try{ss.resume()}catch(e){}
+        var u=new SpeechSynthesisUtterance(txt);
+        u.lang='zh-TW';u.rate=0.95;u.volume=1;
+        var vs=ss.getVoices(),vz=null,i;
+        for(i=0;i<vs.length;i++){if(/zh[-_]TW/i.test(vs[i].lang)){vz=vs[i];break}}
+        if(!vz)for(i=0;i<vs.length;i++){if(/^zh/i.test(vs[i].lang)){vz=vs[i];break}}
+        if(vz)u.voice=vz;
+        t0=now;ss.speak(u);
+      }catch(e){}
+    }
+    try{ss.cancel()}catch(e){}
+    setTimeout(function(){say(true)},200);
+    alarmT=setInterval(function(){say(false)},1200);   /* 念完後約 1 秒再念一次 */
+  }
+  function startAlarm(kind,secs){
+    alarming=true;ringEl.classList.add('alarm');
+    clearInterval(alarmT);alarmT=null;
+    if(kind==='timer'&&window.speechSynthesis&&window.SpeechSynthesisUtterance)announceTimer(secs);
+    else{if(kind==='timer')beep();alarmT=setInterval(beep,2200)}   /* 起床鬧鐘（或瀏覽器不支援語音）仍用鈴聲 */
+    lockScreen();render();
+  }
+  function stopAlarm(){
+    if(!alarming)return;
+    alarming=false;clearTimeout(holdT);clearInterval(alarmT);alarmT=null;
+    try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
+    ringEl.classList.remove('alarm','holding');unlockScreen();remaining=DUR.work;render();
+  }
+  function cancelHold(){clearTimeout(holdT);ringEl.classList.remove('holding')}
+  ringEl.addEventListener('pointerdown',function(){
+    if(!alarming)return;
+    ringEl.classList.add('holding');
+    holdT=setTimeout(function(){justHeld=true;stopAlarm()},600);
+  });
+  ['pointerup','pointerleave','pointercancel'].forEach(function(ev){
+    ringEl.addEventListener(ev,function(){cancelHold();if(justHeld)setTimeout(function(){justHeld=false},60)});
+  });
+  ringEl.addEventListener('contextmenu',function(e){if(alarming||justHeld)e.preventDefault()});
+
+  /* 鬧鐘響時：點螢幕任何地方、按任何鍵（含音量鍵，裝置有送出時）、按側邊電源鍵讓螢幕鎖起來、按耳機鍵，鬧鐘就立刻暫停。
+     停止的那一下點擊不會同時按到底下的按鈕。 */
+  var swallowUntil=0;
+  function quickStop(){if(!alarming)return false;swallowUntil=Date.now()+700;stopAlarm();return true}
+  window.__pomoStopAlarm=quickStop;
+  document.addEventListener('pointerdown',function(){quickStop()},true);
+  document.addEventListener('click',function(e){if(Date.now()<swallowUntil){e.stopPropagation();e.preventDefault()}},true);
+  document.addEventListener('keydown',function(e){if(quickStop())e.preventDefault()},true);
+  document.addEventListener('visibilitychange',function(){if(document.hidden)quickStop()});
+
+  /* Clock: Gregorian date, lunar date, current time */
+  var WK=['日','一','二','三','四','五','六'], lunarFmt=null;
+  try{lunarFmt=new Intl.DateTimeFormat('zh-TW-u-ca-chinese',{year:'numeric',month:'long',day:'numeric'})}catch(e){}
+  function pad(n){return (n<10?'0':'')+n}
+  /* 每個鬧鐘距離下次響鈴的剩餘時間：1 小時以上 7h42、不到 1 小時 42m、不到 1 分鐘 30s */
+  function remText(t){
+    var m=/^(\d{2}):(\d{2})$/.exec(t);if(!m)return {x:'–',tip:''};
+    var d=new Date(), now=d.getHours()*3600+d.getMinutes()*60+d.getSeconds();
+    var s=(+m[1])*3600+(+m[2])*60-now;if(s<=0)s+=86400;
+    var h=Math.floor(s/3600), mi=Math.floor(s%3600/60);
+    return {x:h>0?h+'h'+pad(mi):(mi>0?mi+'m':s+'s'),tip:'距離響鈴還有 '+(h>0?h+' 小時 ':'')+(mi>0||h>0?mi+' 分':s+' 秒')};
+  }
+  function updateRem(){
+    if(!AL)return;
+    Array.prototype.forEach.call(document.querySelectorAll('.al-rem'),function(el){
+      var i=+el.getAttribute('data-i'), r=remText(AL[i].t);
+      el.textContent=r.x;el.title=r.tip;el.classList.toggle('off',!AL[i].on);
+    });
+  }
+  function tickClock(){
+    var d=new Date();
+    checkAlarms();updateRem();
+    $('tH').textContent=pad(d.getHours()%12||12);$('tM').textContent=pad(d.getMinutes());$('tS').textContent=pad(d.getSeconds());
+    var offToday=d.getDay()===0||d.getDay()===6||!!HOL[dkey(d)];
+    $('nowDate').innerHTML=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 <span'+(offToday?' class="wk-red"':'')+'>'+WK[d.getDay()]+'</span>';
+    $('nowLunar').textContent=lunarFmt?'農曆 '+lunarFmt.format(d).replace(/^\d+/,''):'';
+    var sg=$('nowDate').textContent+$('nowLunar').textContent;if(sg!==tickClock.sg){tickClock.sg=sg;fitInfo()}
+  }
+  tickClock();setInterval(tickClock,1000);
+
+  /* Custom time: tap the number, type minutes (25), mm:ss (7:30) or four digits mmss (0730) */
+  var timeIn=$('timeIn'), editing=false;
+  function parseTime(v){
+    v=v.trim();
+    if(/^\d{4}$/.test(v))v=v.slice(0,2)+':'+v.slice(2);
+    var m=v.match(/^(\d{1,3})(?::([0-5]?\d))?$/);
+    if(!m)return null;
+    var s=parseInt(m[1],10)*60+(m[2]?parseInt(m[2],10):0);
+    return (s>=1&&s<=180*60)?s:null;
+  }
+  function openEdit(){
+    if(running||editing||alarming||justHeld)return;
+    var s=selTab();if(!s)return;
+    editing=true;
+    timeIn.style.left=s.offsetLeft+'px';timeIn.style.top=s.offsetTop+'px';
+    timeIn.style.width=s.offsetWidth+'px';timeIn.style.height=s.offsetHeight+'px';
+    timeIn.hidden=false;
+    timeIn.value=fmt(remaining);timeIn.focus();timeIn.select();
+  }
+  function closeEdit(save){
+    if(!editing)return;
+    editing=false;
+    var s=save?parseTime(timeIn.value):null;
+    timeIn.hidden=true;
+    if(s!==null){stop();DUR.work=s;remaining=s;syncTabs()}
+    render();
+  }
+  timeIn.addEventListener('keydown',function(e){
+    if(e.key==='Enter'){closeEdit(true)}
+    else if(e.key==='Escape'){closeEdit(false)}
+  });
+  timeIn.addEventListener('blur',function(){closeEdit(true)});
+
+  /* Calculator (tap the bell) */
+  (function(){
+    var box=$('calc'),bb=$('bellBtn'),dEl=$('calcD'),xEl=$('calcX');
+    var cur='0',acc=null,op=null,fresh=true,err=false;
+    function num(){return parseFloat(cur)}
+    function fm(n){return String(parseFloat(n.toPrecision(12)))}
+    function calc(a,o,b){
+      if(o==='+')return a+b;if(o==='−')return a-b;if(o==='×')return a*b;
+      if(b===0)return null;return a/b;
+    }
+    function show(){
+      dEl.textContent=err?'無法計算':cur;
+      xEl.textContent=(acc!==null&&op)?fm(acc)+' '+op+(fresh?'':' '+cur):'';
+    }
+    function press(k){
+      if(err){cur='0';acc=null;op=null;fresh=true;err=false}
+      if(/^[0-9]$/.test(k)){
+        cur=fresh?k:(cur==='0'?k:(cur.length<14?cur+k:cur));fresh=false;
+      }else if(k==='.'){
+        if(fresh){cur='0.';fresh=false}else if(cur.indexOf('.')<0)cur+='.';
+      }else if(k==='C'){cur='0';acc=null;op=null;fresh=true}
+      else if(k==='⌫'){
+        if(!fresh&&cur.length>1)cur=cur.slice(0,-1);else{cur='0';fresh=true}
+        if(cur==='-')cur='0';
+      }else if(k==='±'){
+        if(cur!=='0')cur=cur.charAt(0)==='-'?cur.slice(1):'-'+cur;
+      }else if(k==='='){
+        if(op!==null){
+          var r=calc(acc,op,num());
+          if(r===null)err=true;else cur=fm(r);
+          acc=null;op=null;fresh=true;
+        }
+      }else{
+        if(acc!==null&&op&&!fresh){
+          var r2=calc(acc,op,num());
+          if(r2===null){err=true;acc=null;op=null;fresh=true;show();return}
+          acc=r2;cur=fm(r2);
+        }else acc=num();
+        op=k;fresh=true;
+      }
+      show();
+    }
+    bb.addEventListener('click',function(){
+      box.hidden=!box.hidden;
+      bb.setAttribute('aria-expanded',String(!box.hidden));bb.classList.toggle('act',!box.hidden);
+    });
+    box.addEventListener('click',function(e){
+      var b=e.target.closest('.ck');if(b)press(b.getAttribute('data-k'));
+    });
+  })();
+
+  /* Wake-up alarms (3): fire at the set clock time while this page is open */
+  var FIRED={}, AL=null;
+  function saveAL(){store('pomo-alarms',AL)}
+  function checkAlarms(){
+    if(!AL)return;
+    var d=new Date(), nm=d.getHours()*60+d.getMinutes();
+    AL.forEach(function(a,i){
+      if(!a.on||!/^\d{2}:\d{2}$/.test(a.t))return;
+      var am=parseInt(a.t.slice(0,2),10)*60+parseInt(a.t.slice(3),10), k=dkey(d)+'#'+i+'#'+a.t;
+      if(nm-am>=0&&nm-am<=1&&!FIRED[k]){
+        FIRED[k]=1;
+        if(!alarming){try{if(navigator.vibrate)navigator.vibrate([300,150,300])}catch(e){}beep();startAlarm();
+        }
+      }
+    });
+  }
+  (function(){
+    var a=load('pomo-alarms',null);
+    if(!Array.isArray(a))a=[{t:'06:30',on:false},{t:'07:00',on:false},{t:'07:30',on:false},{t:'08:00',on:false}];
+    while(a.length<4)a.push({t:'08:00',on:false});
+    a=a.slice(0,4);
+    Array.prototype.forEach.call(document.querySelectorAll('.al-time'),function(el){
+      var i=+el.getAttribute('data-i');el.value=a[i].t;
+      var rm=document.createElement('span');rm.className='al-rem';rm.setAttribute('data-i',i);rm.setAttribute('aria-hidden','true');
+      el.parentNode.insertBefore(rm,el.nextSibling);
+      /* 點進去直接輸入：630、0630、6:30、18.05 都可以，離開輸入框時自動整理成 HH:MM */
+      function parseT(v){
+        var m=String(v).trim().replace(/[：.\s]/g,':').match(/^(\d{1,2}):?(\d{2})$/)||String(v).trim().match(/^(\d{1,2})$/);
+        if(!m)return null;
+        var h=parseInt(m[1],10),mi=m[2]!=null?parseInt(m[2],10):0;
+        if(h>23||mi>59)return null;
+        return pad(h)+':'+pad(mi);
+      }
+      el.addEventListener('focus',function(){var v0=el.value;setTimeout(function(){if(el.value===v0){try{el.select()}catch(e){}}},0)});
+      el.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();el.blur()}});
+      el.addEventListener('change',function(){
+        var t=parseT(el.value);
+        if(!t){el.value=a[i].t;return}
+        el.value=t;a[i].t=t;delete FIRED[dkey(new Date())+'#'+i+'#'+t];saveAL();updateRem();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.sw'),function(el){
+      var i=+el.getAttribute('data-i');var ti=document.querySelector('.al-time[data-i="'+i+'"]');
+      function mark(){if(ti)ti.classList.toggle('on',el.checked)}
+      el.checked=!!a[i].on;mark();
+      el.addEventListener('change',function(){a[i].on=el.checked;mark();saveAL();updateRem()});
+    });
+    AL=a;updateRem();
+  })();
+
+  /* 語音報時：點喇叭符號，或按一次耳機按鍵（報時中再按一次就取消），報時間、日期、星期、氣溫、濕度、風向（例：九點十五分，十一月五號，週四，二十五度，濕度七十五，東北風） */
+  (function(){
+    var ZH=['零','一','二','三','四','五','六','七','八','九'];
+    function zn(n){
+      if(n<10)return ZH[n];
+      var t=Math.floor(n/10),o=n%10;
+      return (t===1?'':ZH[t])+'十'+(o?ZH[o]:'');
+    }
+    function timeText(d){
+      var h12=d.getHours()%12,m=d.getMinutes();
+      if(h12===0)h12=12;
+      var mt=m===0?'整':(m<10?'零'+ZH[m]+'分':zn(m)+'分');
+      var WK=['日','一','二','三','四','五','六'];
+      return (h12===2?'兩':zn(h12))+'點'+mt+'，'+zn(d.getMonth()+1)+'月'+zn(d.getDate())+'號，週'+WK[d.getDay()];
+    }
+    function nz(n){n=Math.round(n);return n<0?'零下'+zn(-n):(n>=100?'一百':zn(n))}
+    /* 氣溫、濕度、風向：先用現在這個整點的預報；沒有就用今天的預報 */
+    function wxSpeech(d){
+      try{
+        var h=WXD&&WXD.hrs&&WXD.hrs[dkey(d)+'T'+pad(d.getHours())+':00'], t=h&&h[0]!=null?h[0]:null, u=h&&h[2]!=null?h[2]:null, w=h&&h[4]?h[4]:null, a='';
+        var dd=null;
+        if(WXD&&WXD.days){WXD.days.forEach(function(x){if(x.d===dkey(d))dd=x})}
+        if(t==null&&dd)t=(dd.hi+dd.lo)/2;
+        if(u==null&&dd&&dd.hum!=null)u=dd.hum;
+        if(!w&&dd&&dd.wd)w=dd.wd;
+        if(t!=null)a+='，'+nz(t)+'度';
+        if(u!=null)a+='，濕度'+nz(u);
+        if(w)a+='，'+w;
+        return a;
+      }catch(e){return ''}
+    }
+    var spkId=0, speaking=false;
+    /* 報時進行中？（自己記一個旗標，再用瀏覽器的狀態對照，避免 iPhone 偶爾不觸發結束事件而卡住） */
+    function isSpeaking(){return speaking&&(!window.speechSynthesis||speechSynthesis.speaking||speechSynthesis.pending)}
+    function stopSpeak(){
+      try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
+      speaking=false;spkId++;curU=null;var sb=$('speakBtn');if(sb)sb.classList.remove('act');
+    }
+    var curU=null, fixEl=null;
+    /* 語音引擎 3 次都沒聲音：在畫面下方出現一個按鈕，點一下重新載入網頁（重新載入一定能恢復，和按 ✕ 一樣） */
+    function hideFix(){if(fixEl){try{fixEl.remove()}catch(e){}fixEl=null}}
+    function showFix(){
+      if(fixEl||!document.body)return;
+      var d=document.createElement('div');
+      d.setAttribute('style','position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:99998;background:#2b2b2b;color:#fff;padding:10px 16px;border-radius:999px;font:14px/1.3 sans-serif;box-shadow:0 2px 10px rgba(0,0,0,.35);cursor:pointer;max-width:90vw;text-align:center');
+      d.textContent='語音被其他 App 佔用，沒有聲音・點此重新載入網頁恢復';
+      d.addEventListener('click',function(){window.__pomoClosed=true;location.reload()});
+      document.body.appendChild(d);fixEl=d;
+      setTimeout(hideFix,30000);
+    }
+    /* 報時：iPhone 的語音引擎在別的影音（影片、Facebook）搶過音訊之後，常會卡住、完全不出聲。
+       這裡每次都先清空並接回引擎，稍等一下再念；如果 1.5 秒內沒有開始念，就自動換個方式再試（最多 3 次） */
+    function speak(){
+      try{
+        if(!window.speechSynthesis)return;
+        var now=new Date(), text=timeText(now)+wxSpeech(now), my=++spkId, sb=$('speakBtn');
+        speaking=true;if(sb)sb.classList.add('act');
+        attempt(text,my,0);
+      }catch(e){}
+    }
+    function attempt(text,my,n){
+      if(my!==spkId)return;
+      var ss=window.speechSynthesis,sb=$('speakBtn');
+      try{ss.cancel();ss.resume()}catch(e){}
+      setTimeout(function(){
+        if(my!==spkId)return;
+        try{
+          var started=false,u=new SpeechSynthesisUtterance(text);
+          u.lang='zh-TW';u.rate=n>=2?1:0.95;u.volume=1;
+          if(n===0){   /* 第一次用指定的中文語音；重試時改用系統預設，避免用到失效的語音 */
+            var vs=ss.getVoices(),vz=null,i;
+            for(i=0;i<vs.length;i++){if(/zh[-_]TW/i.test(vs[i].lang)){vz=vs[i];break}}
+            if(!vz)for(i=0;i<vs.length;i++){if(/^zh/i.test(vs[i].lang)){vz=vs[i];break}}
+            if(vz)u.voice=vz;
+          }
+          curU=u;
+          var off=function(){if(curU!==u||my!==spkId)return;speaking=false;if(sb)sb.classList.remove('act')};
+          u.addEventListener('start',function(){started=true;hideFix()});
+          u.addEventListener('end',off);u.addEventListener('error',off);
+          setTimeout(off,30000);
+          ss.speak(u);
+          setTimeout(function(){
+            if(my!==spkId||curU!==u||started)return;
+            if(ss.speaking&&!ss.pending)return;            /* 已經在念了（只是沒收到開始事件） */
+            if(n<2)attempt(text,my,n+1);else{off();showFix()}        /* 3 次都不行就放棄 */
+          },1500);
+        }catch(e){}
+      },n===0?250:300);   /* 稍等一下，讓剛接回的音訊環境就位 */
+    }
+    window.__pomoSpeak=speak;
+    /* 耳機鍵用：報時中再按一次＝取消報時；沒在報時＝開始報時 */
+    /* 探測語音引擎有沒有反應：念一個音量 0 的字，看有沒有收到開始事件（不會出聲） */
+    function probe(cb){
+      try{
+        var ss=window.speechSynthesis;if(!ss||isSpeaking()){cb(true);return}
+        var ok=false,u=new SpeechSynthesisUtterance('嗯');u.volume=0;u.lang='zh-TW';
+        u.addEventListener('start',function(){ok=true});u.addEventListener('end',function(){ok=true});
+        ss.cancel();try{ss.resume()}catch(e){}
+        ss.speak(u);
+        setTimeout(function(){if(!ok){try{ss.cancel()}catch(e){}}cb(ok)},1500);
+      }catch(e){cb(true)}
+    }
+    /* 從別的 App（例如 Facebook 影片）回到本頁時呼叫：引擎沒反應就先修一次，還是不行就顯示「點此重新載入」 */
+    window.__pomoCheckSpeech=function(){
+      if(isSpeaking())return;
+      probe(function(ok){
+        if(ok){hideFix();return}
+        try{speechSynthesis.cancel();speechSynthesis.resume()}catch(e){}
+        setTimeout(function(){probe(function(ok2){if(ok2)hideFix();else showFix()})},400);
+      });
+    };
+    window.__pomoSpeakReset=function(){speaking=false};
+    window.__pomoSpeechFix=function(){try{if(!isSpeaking()&&window.speechSynthesis){speechSynthesis.cancel();speechSynthesis.resume()}}catch(e){}};
+    window.__pomoSpeakToggle=function(){if(isSpeaking()){stopSpeak();return true}speak();return false};
+    var sb=$('speakBtn');
+    if(sb)sb.addEventListener('click',function(){speak()});
+  })();
+
+  /* 耳機按鍵：按一次就語音報時（網頁在背景播放一段無聲音訊，登記成媒體播放器才收得到按鍵；
+     需先點過頁面一次，瀏覽器才允許播放。鬧鐘響時按鍵改為立刻停止鬧鐘） */
+  (function(){
+    if(!('mediaSession' in navigator))return;
+    var au=null,ready=false,last=0,hitAt=0,yielded=false,visAt=Date.now(),hidAt=0,wasYield=false;
+    function hp(t){var e=document.getElementById('hpSt');if(e)e.textContent='耳機：'+t}
+    function hhmmss(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)+':'+('0'+d.getSeconds()).slice(-2)}
+    function hpState(){
+      if(!('mediaSession' in navigator)){hp('此瀏覽器不支援');return}
+      hp(yielded?'已讓給其他 App 播放，回到本頁自動恢復':(au&&!au.paused?'待命（可按耳機鍵）':'未啟用，請點畫面一下'));
+    }
+    function silentUrl(){
+      var n=80000,b=new ArrayBuffer(44+n),v=new DataView(b),i;
+      function w(o,t){for(var k=0;k<t.length;k++)v.setUint8(o+k,t.charCodeAt(k))}
+      w(0,'RIFF');v.setUint32(4,36+n,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);
+      v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,8000,true);v.setUint32(28,8000,true);
+      v.setUint16(32,1,true);v.setUint16(34,8,true);w(36,'data');v.setUint32(40,n,true);
+      for(i=0;i<n;i++)v.setUint8(44+i,128);
+      return URL.createObjectURL(new Blob([b],{type:'audio/wav'}));
+    }
+    function camBusy(){var c=document.getElementById('wxC');return !!(c&&!c.hidden&&c.querySelector('iframe'))}
+    function resume(){if(au&&au.paused){var pr=au.play();if(pr&&pr.catch)pr.catch(function(){})}try{navigator.mediaSession.playbackState='playing'}catch(e){}}
+    function onKey(a){
+      hitAt=Date.now();yielded=false;hp('收到 '+(typeof a==='string'?a:'按鍵')+' '+hhmmss());
+      if(window.__pomoStopAlarm&&window.__pomoStopAlarm()){resume();return}
+      /* 影像（攝影機／YouTube）播放中：影片開始播放會讓靜音檔被暫停、或觸發播放／暫停事件，不能當成耳機鍵，否則會誤觸語音報時 */
+      if(camBusy()&&/^(play|pause|暫停|MediaPlayPause|MediaPlay|MediaPause)$/.test(String(a)))return;
+      var n=Date.now();if(n-last<1500){resume();return}
+      last=n;
+      if(window.__pomoSpeakToggle)window.__pomoSpeakToggle();else if(window.__pomoSpeak)window.__pomoSpeak();
+      resume();
+    }
+    function setup(){
+      if(ready)return;ready=true;
+      au=new Audio(silentUrl());window.__pomoAu=au;au.loop=true;au.volume=0.01;
+      au.setAttribute('playsinline','');au.setAttribute('x-webkit-airplay','deny');
+      au.style.display='none';try{document.body.appendChild(au)}catch(e){}
+      /* 有些瀏覽器收到耳機鍵時只是把這個靜音檔暫停，不呼叫處理函式：補一個後備，沒收到時自己處理並接回播放 */
+      au.addEventListener('pause',function(){
+        if(window.__pomoClosed||au.ended)return;
+        if(!au.paused)return;   /* 已經接回播放了，這是過期的事件 */
+        /* 網頁在背景（或剛回到前景）、又不是耳機鍵造成的暫停：是被其他 App／分頁的影音（例如 Facebook 影片）搶走音訊。
+           這時不報時，也不搶回播放（搶回會把對方的影片又暫停，造成互相干擾）；回到本頁時會自動恢復 */
+        if(Date.now()-hitAt>400&&(document.hidden||Date.now()-visAt<1500)){yielded=true;wasYield=true;if(window.__pomoSpeakReset)window.__pomoSpeakReset();hp('已讓給其他 App 播放，回到本頁自動恢復');return}
+        setTimeout(function(){
+          if(window.__pomoClosed||camBusy())return;
+          if(Date.now()-hitAt>400)onKey('暫停');
+          var q=au.play();if(q&&q.catch)q.catch(function(){});
+        },250);
+      });
+      var pr=au.play();if(pr&&pr.catch)pr.catch(function(){ready=false});
+      try{
+        navigator.mediaSession.metadata=new MediaMetadata({title:'index',artist:'按一下報時，報時中再按一下取消'});
+        ['play','pause','nexttrack','previoustrack','stop','seekforward','seekbackward'].forEach(function(a){
+          try{navigator.mediaSession.setActionHandler(a,function(){onKey(a)})}catch(e){}
+        });
+        navigator.mediaSession.playbackState='playing';
+      }catch(e){}
+    }
+    function rearm(){
+      yielded=false;if(window.__pomoSpeakReset)window.__pomoSpeakReset();if(window.__pomoSpeechFix)window.__pomoSpeechFix();
+      if(!ready){setup();return}
+      resume();setTimeout(function(){if(au&&au.paused&&!document.hidden&&!window.__pomoClosed)resume()},700);
+    }
+    setup();
+    setInterval(function(){
+      /* 本頁在前景、穩定超過 1.5 秒：不管剛才為什麼被暫停（例如 Facebook 看完或關掉了），自動接回，不必再點畫面 */
+      if(ready&&au&&!document.hidden&&Date.now()-visAt>1500&&(au.paused||yielded)&&!window.__pomoClosed&&!camBusy()){yielded=false;resume()}
+      if(Date.now()-hitAt>5000)hpState();
+    },1500);
+    document.addEventListener('pointerdown',rearm);
+    document.addEventListener('keydown',rearm);
+    document.addEventListener('keydown',function(e){if(/^(MediaPlayPause|MediaPlay|MediaPause|MediaTrackNext|MediaTrackPrevious|MediaStop|HeadsetHook)$/.test(e.key||'')){onKey(e.key);e.preventDefault()}});
+    document.addEventListener('visibilitychange',function(){
+      var n=Date.now();
+      if(document.hidden){hidAt=n;visAt=n;return}
+      var away=hidAt?n-hidAt:0;visAt=n;rearm();
+      /* 被其他 App 搶過音訊，或離開超過 15 秒：回來時檢查語音引擎是否還活著 */
+      if(wasYield||away>15000){wasYield=false;setTimeout(function(){if(window.__pomoCheckSpeech)window.__pomoCheckSpeech()},900)}
+    });
+    window.addEventListener('focus',rearm);
+    window.__pomoRearm=rearm;
+    window.addEventListener('pageshow',rearm);
+    document.addEventListener('resume',rearm);
+  })();
+
+  /* 重新載入：按 ✕ 一次就立刻重新載入網頁 */
+  (function(){
+    var qb=$('quitBtn'),armed=false,t=null;
+    if(!qb)return;
+    function closeApp(){
+      window.__pomoClosed=true;
+      try{stop()}catch(e){}
+      try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
+      try{['play','pause','nexttrack','previoustrack','stop'].forEach(function(a){navigator.mediaSession.setActionHandler(a,null)});navigator.mediaSession.metadata=null}catch(e){}
+      try{window.close()}catch(e){}
+      try{var m=setTimeout(function(){},0);for(var i=m;i>=0;i--){clearTimeout(i);clearInterval(i)}}catch(e){}
+      try{if(window.__pomoAu){window.__pomoAu.pause();window.__pomoAu.src=''}}catch(e){}
+      var ov=document.createElement('div');
+      ov.setAttribute('style','position:fixed;inset:0;z-index:99999;display:grid;place-items:center;background:#1c1b19;color:#d8d3c8;font:18px sans-serif;text-align:center');
+      ov.innerHTML='<div>已關閉<br><small style="opacity:.6">點下方按鈕可再次開啟</small><br><button id="reopen" style="margin-top:18px;font:inherit;font-size:16px;padding:10px 22px;border:0;border-radius:999px;background:#8fa08a;color:#1c1b19;cursor:pointer">重新開啟</button></div>';
+      document.body.appendChild(ov);
+      ov.querySelector('#reopen').addEventListener('click',function(){location.reload()});
+    }
+    qb.addEventListener('click',function(){
+      /* 按一下立刻重新載入，不再確認 */
+      window.__pomoClosed=true;
+      try{if(window.speechSynthesis)speechSynthesis.cancel()}catch(e){}
+      location.reload();
+    });
+  })();
+
+  /* Tasks */
+  function saveTasks(){store('pomo-tasks',tasks)}
+  function renderTasks(){
+    var ul=$('list');ul.innerHTML='';
+    if(!tasks.length){
+      var e=document.createElement('div');e.className='empty';e.textContent='還沒有任務，從上方新增第一項吧。';ul.appendChild(e);
+    }
+    tasks.forEach(function(t,i){
+      var li=document.createElement('li');if(t.done)li.className='done';
+      var cb=document.createElement('input');cb.type='checkbox';cb.checked=t.done;cb.setAttribute('aria-label','完成：'+t.text);
+      cb.addEventListener('change',function(){t.done=cb.checked;saveTasks();renderTasks()});
+      var sp=document.createElement('span');sp.textContent=t.text;
+      var d=document.createElement('button');d.className='del';d.textContent='×';d.setAttribute('aria-label','刪除：'+t.text);
+      d.addEventListener('click',function(){tasks.splice(i,1);saveTasks();renderTasks()});
+      li.appendChild(cb);li.appendChild(sp);li.appendChild(d);ul.appendChild(li);
+    });
+    var n=tasks.filter(function(t){return t.done}).length;
+    $('sub').textContent=tasks.length?'已完成 '+n+' / '+tasks.length+' 項':'寫下今天要完成的事';
+  }
+  function addTask(){
+    var v=$('in').value.trim();if(!v)return;
+    tasks.push({text:v,done:false});$('in').value='';saveTasks();renderTasks();$('in').focus();
+  }
+  $('addBtn').addEventListener('click',addTask);
+  $('in').addEventListener('keydown',function(e){if(e.key==='Enter')addTask()});
+
+  /* Theme */
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    $('theme').querySelector('.ic').textContent=t==='dark'?'☀\uFE0E':'☾\uFE0E';$('theme').classList.toggle('act',t==='dark');
+  }
+  var saved=load('pomo-theme',null);
+  applyTheme(saved||'dark');
+  $('theme').addEventListener('click',function(){
+    var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+    applyTheme(t);store('pomo-theme',t);
+  });
+
+  /* Init */
+  tasks=load('pomo-tasks',[]);if(!Array.isArray(tasks))tasks=[];
+  var r=load('pomo-rounds',null);if(r&&r.d===new Date().toDateString())rounds=r.n||0;
+  /* A countdown still running when the page was closed or reloaded carries on */
+  var run=load('pomo-run',null);
+  if(run&&run.end>Date.now()&&run.dur>0){
+    DUR.work=run.dur;syncTabs();endAt=run.end;
+    remaining=Math.max(1,Math.round((endAt-Date.now())/1000));
+    running=true;runStart=0;tick=setInterval(update,250);lockScreen();
+  }else if(run){store('pomo-run',null)}
+  renderTasks();render();
+})();
+</script>
+
+</body></html>
